@@ -10,7 +10,7 @@
  * Time: 1:17 AM
  */
 if(SessionManager::getSecurityUserId() == 0){
-    header("location: admin-login.php");
+    //header("location: admin-login.php");
 }
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $returnVal = true;
@@ -40,12 +40,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $validationMsg = "An error occurred during the creation of this security user. Please try again. If the problem continues, contact OpenDevTools support at opendevtools@gmail.com";
             }
             else {
+                Mailer::sendRegistrationEmail($securityuser->getEmail());
                 // Set session values for successful login
                 SessionManager::setSecurityUserId($securityuser->getId());
                 SessionManager::setRoleId($securityuser->getRoleId());
                 SessionManager::setUsername($securityuser->getUsername());
                 // Redirect to Dashboard
-                header("location: dashboard.php");
+                header("location: index.php");
             }
         }
     }
@@ -129,6 +130,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
 </div>
 
+<?php include "footer.php" ?>
 <?php include "scripts.php" ?>
 
 </body>

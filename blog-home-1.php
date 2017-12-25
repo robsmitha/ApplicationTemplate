@@ -1,4 +1,10 @@
 <?php include "classes.php" ?>
+<?php
+if($_SERVER["REQUEST_METHOD"] == "GET"){
+    isset( $_GET["id"]) ? $blogcategoryid =  $_GET["id"] : $blogcategoryid =  null;
+    $blogList = Blog::search(null,null,null,null,$blogcategoryid,null,null,null);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,48 +34,27 @@
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
-
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
-
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-              <h2 class="card-title">Post Title</h2>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-              <a href="#" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              Posted on January 1, 2017 by
-              <a href="#">Start Bootstrap</a>
-            </div>
-          </div>
+            <?php
+            if(!empty($blogList)){
+                foreach ($blogList as $b){
+                    ?>
+                    <!-- Blog Post -->
+                    <div class="card mb-4">
+                        <img class="card-img-top" src="<?php echo $b->getImgUrl() ?>" alt="Card image cap">
+                        <div class="card-body">
+                            <h2 class="card-title"><?php echo $b->getTitle() ?></h2>
+                            <p class="card-text"><?php echo nl2br(substr($b->getDescription(), 0, 300)) ?>...</p>
+                            <a href="blog-post.php?id=<?php echo $b->getId() ?>" class="btn btn-primary">Read More &rarr;</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Posted on <?php echo $b->getCreateDate() ?> by
+                            <a href="#"><?php echo $b->getSecurityUserId() ?></a>
+                        </div>
+                    </div>
+            <?php
+                }
+            }
+            ?>
 
           <!-- Pagination -->
           <ul class="pagination justify-content-center mb-4">
@@ -104,32 +89,18 @@
             <h5 class="card-header">Categories</h5>
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">Web Design</a>
-                    </li>
-                    <li>
-                      <a href="#">HTML</a>
-                    </li>
-                    <li>
-                      <a href="#">Freebies</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-lg-6">
-                  <ul class="list-unstyled mb-0">
-                    <li>
-                      <a href="#">JavaScript</a>
-                    </li>
-                    <li>
-                      <a href="#">CSS</a>
-                    </li>
-                    <li>
-                      <a href="#">Tutorials</a>
-                    </li>
-                  </ul>
-                </div>
+                  <?php
+                  $blogCategoryLiat = Blogcategory::loadall();
+                  if(!empty($blogCategoryLiat)){
+                      foreach ($blogCategoryLiat as $bc) {
+                          ?>
+                          <div class="col-lg-6">
+                              <a href="blog-home-1.php?id=<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></a>
+                          </div>
+                          <?php
+                      }
+                  }
+                  ?>
               </div>
             </div>
           </div>

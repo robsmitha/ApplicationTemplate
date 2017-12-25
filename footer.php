@@ -31,9 +31,11 @@
         ?>
 
         <p class="text-muted small mb-0">Copyright &copy; Application Template <?php echo date("Y"); ?></p>
+        <br>
     </div>
 </footer>
-<!-- Scroll to Top Button-->
+
+<!-- Scroll to Top Button
 <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
     <i class="fa fa-angle-up"></i>
-</a>
+</a>-->

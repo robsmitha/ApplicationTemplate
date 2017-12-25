@@ -32,12 +32,12 @@ DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_cart_Search`;
 CREATE TABLE `applicationtemplate`.`cart` (
 Id INT AUTO_INCREMENT,
 CustomerId INT,
-StatusTypeId INT,
+CartStatusTypeId INT,
 CreateDate DATETIME,
 CheckoutDate DATETIME,
 CONSTRAINT pk_cart_Id PRIMARY KEY (Id),
 CONSTRAINT fk_cart_CustomerId_customer_Id FOREIGN KEY (CustomerId) REFERENCES customer (Id),
-CONSTRAINT fk_cart_StatusTypeId_statustype_Id FOREIGN KEY (StatusTypeId) REFERENCES statustype (Id)
+CONSTRAINT fk_cart_StatusTypeId_cartstatustype_Id FOREIGN KEY (CartStatusTypeId) REFERENCES cartstatustype (Id)
 );
 
 
@@ -55,7 +55,7 @@ BEGIN
 	SELECT
 		`cart`.`Id` AS `Id`,
 		`cart`.`CustomerId` AS `CustomerId`,
-		`cart`.`StatusTypeId` AS `StatusTypeId`,
+		`cart`.`CartStatusTypeId` AS `CartStatusTypeId`,
 		`cart`.`CreateDate` AS `CreateDate`,
 		`cart`.`CheckoutDate` AS `CheckoutDate`
 	FROM `cart`
@@ -70,7 +70,7 @@ BEGIN
 	SELECT
 		`cart`.`Id` AS `Id`,
 		`cart`.`CustomerId` AS `CustomerId`,
-		`cart`.`StatusTypeId` AS `StatusTypeId`,
+		`cart`.`CartStatusTypeId` AS `CartStatusTypeId`,
 		`cart`.`CreateDate` AS `CreateDate`,
 		`cart`.`CheckoutDate` AS `CheckoutDate`
 	FROM `cart`;
@@ -81,13 +81,13 @@ DELIMITER //
 CREATE PROCEDURE `applicationtemplate`.`usp_cart_Add`
 (
 	 IN paramCustomerId INT,
-	 IN paramStatusTypeId INT,
+	 IN paramCartStatusTypeId INT,
 	 IN paramCreateDate DATETIME,
 	 IN paramCheckoutDate DATETIME
 )
 BEGIN
-	INSERT INTO `cart` (CustomerId,StatusTypeId,CreateDate,CheckoutDate)
-	VALUES (paramCustomerId, paramStatusTypeId, paramCreateDate, paramCheckoutDate);
+	INSERT INTO `cart` (CustomerId,CartStatusTypeId,CreateDate,CheckoutDate)
+	VALUES (paramCustomerId, paramCartStatusTypeId, paramCreateDate, paramCheckoutDate);
 	-- Return last inserted ID as result
 	SELECT LAST_INSERT_ID() as id;
 END //
@@ -99,14 +99,14 @@ CREATE PROCEDURE `applicationtemplate`.`usp_cart_Update`
 (
 	IN paramId INT,
 	IN paramCustomerId INT,
-	IN paramStatusTypeId INT,
+	IN paramCartStatusTypeId INT,
 	IN paramCreateDate DATETIME,
 	IN paramCheckoutDate DATETIME
 )
 BEGIN
 	UPDATE `cart`
 	SET CustomerId = paramCustomerId
-		,StatusTypeId = paramStatusTypeId
+		,CartStatusTypeId = paramCartStatusTypeId
 		,CreateDate = paramCreateDate
 		,CheckoutDate = paramCheckoutDate
 	WHERE		`cart`.`Id` = paramId;
@@ -131,7 +131,7 @@ CREATE PROCEDURE `applicationtemplate`.`usp_cart_Search`
 (
 	IN paramId INT,
 	IN paramCustomerId INT,
-	IN paramStatusTypeId INT,
+	IN paramCartStatusTypeId INT,
 	IN paramCreateDate DATETIME,
 	IN paramCheckoutDate DATETIME
 )
@@ -139,14 +139,14 @@ BEGIN
 	SELECT
 		`cart`.`Id` AS `Id`,
 		`cart`.`CustomerId` AS `CustomerId`,
-		`cart`.`StatusTypeId` AS `StatusTypeId`,
+		`cart`.`CartStatusTypeId` AS `CartStatusTypeId`,
 		`cart`.`CreateDate` AS `CreateDate`,
 		`cart`.`CheckoutDate` AS `CheckoutDate`
 	FROM `cart`
 	WHERE
 		COALESCE(cart.`Id`,0) = COALESCE(paramId,cart.`Id`,0)
 		AND COALESCE(cart.`CustomerId`,0) = COALESCE(paramCustomerId,cart.`CustomerId`,0)
-		AND COALESCE(cart.`StatusTypeId`,0) = COALESCE(paramStatusTypeId,cart.`StatusTypeId`,0)
+		AND COALESCE(cart.`CartStatusTypeId`,0) = COALESCE(paramCartStatusTypeId,cart.`CartStatusTypeId`,0)
 		AND COALESCE(CAST(cart.`CreateDate` AS DATE), CAST(NOW() AS DATE)) = COALESCE(CAST(paramCreateDate AS DATE),CAST(cart.`CreateDate` AS DATE), CAST(NOW() AS DATE))
 		AND COALESCE(CAST(cart.`CheckoutDate` AS DATE), CAST(NOW() AS DATE)) = COALESCE(CAST(paramCheckoutDate AS DATE),CAST(cart.`CheckoutDate` AS DATE), CAST(NOW() AS DATE));
 END //

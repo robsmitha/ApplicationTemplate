@@ -5,12 +5,15 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="about.php">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="services.php">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.php">Gallery</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
@@ -34,7 +37,6 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
                         <a class="dropdown-item" href="blog-home-1.php">Blog Home 1</a>
                         <a class="dropdown-item" href="blog-home-2.php">Blog Home 2</a>
-                        <a class="dropdown-item" href="blog-post.php">Blog Post</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -49,18 +51,52 @@
                         <a class="dropdown-item" href="pricing.php">Pricing Table</a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="event-home.php">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shop-home.php">Shop</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
                 <?php if(SessionManager::getSecurityUserId() > 0   //Security user logged in
                     && SessionManager::getCustomerId() == 0) {
                     ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Administration
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdmin">
+                            <a class="dropdown-item" href="admin-dashboard.php">Admin Home</a>
+                            <a class="dropdown-item" href="create-blog.php">Create Blog</a>
+                            <a class="dropdown-item" href="create-item.php">Create Item</a>
+                            <a class="dropdown-item" href="create-user.php">Create User</a>
+                            <a class="dropdown-item" href="create-image.php">Create Image</a>
+                            <a class="dropdown-item" href="create-event.php">Create Event</a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="create-user.php">Create User</a>
+                        <a class="nav-link" href="logout.php">Logout</a>
                     </li>
                     <?php
                 }else if(SessionManager::getCustomerId() > 0){  //customer is logged in
                     ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="online-cart.php"><i class="icon-basket"></i> Cart
+                            <span id="cartCounter" class="badge badge-pill badge-primary">
+                                <?php
+                                $foundcart = Cart::loadbycustomerid(SessionManager::getCustomerId());
+                                $totalcartcount = 0;
+                                if($foundcart != null){
+                                    //use this cart id for item;
+                                    $cartid = $foundcart->getId();
+                                    $totalcartcount = Onlinecart::getcartcount($cartid);
+                                }
+                                echo $totalcartcount;
+                                ?>
+                            </span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>
                     </li>

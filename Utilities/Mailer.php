@@ -27,7 +27,7 @@ class Mailer
             $mail->Port = 587;                              // TCP port to connect to
 
             //Recipients
-            $mail->setFrom($smtpUsername, 'OpenDevTools');
+            $mail->setFrom($smtpUsername, 'Application Template');
             $mail->addAddress($recipientEmail);
             $mail->addReplyTo($smtpUsername, 'NoReply');
 
@@ -36,7 +36,7 @@ class Mailer
             $body = $body . '<br/><p>If you believe you have received this message in error, please contact our <a href="mailto:info@opendevtools.org">Site Administrators</a>.</p>';
 
             $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = 'OpenDevTools Registration Successful';
+            $mail->Subject = 'Application Template Registration Successful';
             $mail->Body    = $body;
 
             $altBody = strip_tags($body);
@@ -76,7 +76,7 @@ class Mailer
             $mail->Port = 587;                              // TCP port to connect to
 
             //Recipients
-            $mail->setFrom($email_address,"OpenDevTools User");
+            $mail->setFrom($email_address,"Application Template User");
             $mail->addAddress($smtpUsername);   // This email is to ourselves
             $mail->addReplyTo($email_address,$email_address);
 
@@ -122,9 +122,9 @@ class Mailer
             $mail->Port = 587;                              // TCP port to connect to
 
             //Recipients
-            $mail->setFrom($smtpUsername,"OpenDevTools User");
+            $mail->setFrom($smtpUsername,"Application Template User");
             $mail->addAddress($email_address);
-            $mail->addReplyTo($smtpUsername,"OpenDevTools");
+            $mail->addReplyTo($smtpUsername,"Application Template");
 
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
