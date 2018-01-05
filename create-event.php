@@ -59,7 +59,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 
 <?php include "head.php" ?>
 
-<body id="page-top">
+<body class="bg-dark" id="page-top">
 <?php include "navbar.php" ?>
 <div class="container">
     <?php if(isset($validationMsg)) { ?>
@@ -162,7 +162,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 
                     </form>
                     <div class="text-center">
-                        <a class="d-block small mt-3" href="admin-dashboard.php">Cancel</a>
+                        <a class="d-block small mt-3" href="admin-home.php">Cancel</a>
                     </div>
                 </div>
             </div>

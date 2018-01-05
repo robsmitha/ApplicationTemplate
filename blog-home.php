@@ -95,7 +95,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                       foreach ($blogCategoryLiat as $bc) {
                           ?>
                           <div class="col-lg-6">
-                              <a href="blog-home-1.php?id=<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></a>
+                              <a href="blog-home.php?id=<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></a>
                           </div>
                           <?php
                       }

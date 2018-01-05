@@ -17,8 +17,8 @@ $securityuserid = SessionManager::getSecurityUserId();
 <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Events
-        <small>Sweet subheading!</small>
+    <h1 class="mt-4 mb-3 d-none d-sm-block">Events
+        <small>Cory's Latest Shows!</small>
         <?php
         if($securityuserid > 0){
             ?>
@@ -35,15 +35,15 @@ $securityuserid = SessionManager::getSecurityUserId();
     </ol>
     <ul class="nav nav-pills nav-justified" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><i class="fa fa-list"></i> </a>
+            <a class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest" role="tab" aria-controls="latest" aria-selected="true"><i class="fa fa-clock-o"></i> Latest Shows</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false"><i class="fa fa-table"></i> </a>
+            <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="false"><i class="fa fa-list"></i> All Shows</a>
         </li>
     </ul>
     <br>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="latest" role="tabpanel" aria-labelledby="latest-tab">
             <?php
             $eventList = Event::loadall();
             if(!empty($eventList)){
@@ -59,7 +59,7 @@ $securityuserid = SessionManager::getSecurityUserId();
                         <div class="col-md-5">
                             <h3><?php echo $event->getName() ?></h3>
                             <b><?php echo $event->getLocation() ?></b>
-                            <p><?php echo $event->getDescription() ?></p>
+                            <p><?php echo nl2br(substr($event->getDescription(), 0, 300)); ?></p>
                             <div class="btn-group">
                                 <?php
                                 if($securityuserid > 0){
@@ -71,7 +71,7 @@ $securityuserid = SessionManager::getSecurityUserId();
                                 <a class="btn btn-primary" href="event.php?id=<?php echo $event->getId() ?>">View Event
                                     <span class="glyphicon glyphicon-chevron-right"></span>
                                 </a>
-                                <a class="btn btn-success" href="<?php echo $event->getTicketLink() ?>">Get Tickets
+                                <a class="btn btn-default" href="<?php echo $event->getTicketLink() ?>">Get Tickets
                                     <span class="glyphicon glyphicon-chevron-right"></span>
                                 </a>
                             </div>
@@ -84,7 +84,7 @@ $securityuserid = SessionManager::getSecurityUserId();
             }
             ?>
         </div>
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
             <?php
             if(!empty($eventList)){
             ?>
@@ -93,10 +93,10 @@ $securityuserid = SessionManager::getSecurityUserId();
                 <tr>
                     <th>Event</th>
                     <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Location</th>
-                    <th>Tickets</th>
+                    <th class="d-none d-sm-table-cell">Start Time</th>
+                    <th class="d-none d-sm-table-cell">End Time</th>
+                    <th class="d-none d-sm-table-cell">Location</th>
+                    <th class="d-none d-sm-table-cell">Tickets</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -108,10 +108,10 @@ $securityuserid = SessionManager::getSecurityUserId();
                             <h5><a href="event.php?id=<?php echo $event->getId() ?>"><?php echo $event->getName() ?></a></h5>
                         </td>
                         <td><?php echo date_format(date_create($event->getStartDate()), 'm/d/y'); ?></td>
-                        <td><?php echo date_format(date_create($event->getStartDate()), 'g:i A'); ?></td>
-                        <td><?php echo date_format(date_create($event->getEndDate()), 'g:i A'); ?></td>
-                        <td><?php echo $event->getLocation() ?></td>
-                        <td><a class="btn btn-primary" href="<?php echo $event->getTicketLink() ?>">Get Tickets</a></td>
+                        <td class="d-none d-sm-table-cell"><?php echo date_format(date_create($event->getStartDate()), 'g:i A'); ?></td>
+                        <td class="d-none d-sm-table-cell"><?php echo date_format(date_create($event->getEndDate()), 'g:i A'); ?></td>
+                        <td class="d-none d-sm-table-cell"><?php echo $event->getLocation() ?></td>
+                        <td class="d-none d-sm-table-cell"><a class="btn btn-primary" href="<?php echo $event->getTicketLink() ?>">Get Tickets</a></td>
                     </tr>
                     <?php
                 }

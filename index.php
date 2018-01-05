@@ -19,21 +19,21 @@
         </ol>
         <div class="carousel-inner" role="listbox">
           <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
+          <div class="carousel-item active" style="background-image: url('img/slide-1.jpg')">
             <div class="carousel-caption d-none d-md-block">
               <h3>First Slide</h3>
               <p>This is a description for the first slide.</p>
             </div>
           </div>
           <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
+          <div class="carousel-item" style="background-image: url('img/slide-2.jpg')">
             <div class="carousel-caption d-none d-md-block">
               <h3>Second Slide</h3>
               <p>This is a description for the second slide.</p>
             </div>
           </div>
           <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
+          <div class="carousel-item" style="background-image: url('img/slide-3.jpg')">
             <div class="carousel-caption d-none d-md-block">
               <h3>Third Slide</h3>
               <p>This is a description for the third slide.</p>
@@ -54,123 +54,53 @@
     <!-- Page Content -->
     <div class="container">
 
-      <h1 class="my-4">Welcome to Modern Business</h1>
+      <h1 class="my-4">Welcome to Application Template</h1>
 
       <!-- Marketing Icons Section -->
       <div class="row">
         <div class="col-lg-4 mb-4">
           <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
+            <h4 class="card-header"><i class="icon-speedometer"></i> Fast Setup</h4>
             <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+              <p class="card-text">Download the latest source from GitHub. Run project out of software like phpMyAdmin and in your MySQL server run the following command to build out the database schema.</p>
+                <code class="small">
+                    source /path/SQL/ApplicationTemplate.sql
+                </code>
             </div>
             <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
+              <a href="#" class="btn btn-primary">Download on GitHub</a>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
-            <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
+          <div class="col-lg-4 mb-4">
+              <div class="card h-100">
+                  <h4 class="card-header"><i class="icon-key"></i> Key Functionality</h4>
+                  <div class="card-body">
+                      <p class="card-text">This template generated DAL files for Searching, Creating, Reading, Updating and Deleting database record. Each included table will have the corresponding generated SCRUD sprocs and DAL class.</p>
+                  </div>
+                  <div class="card-footer">
+                      <a href="#" class="btn btn-primary">View Documentation</a>
+                  </div>
+              </div>
           </div>
-        </div>
         <div class="col-lg-4 mb-4">
           <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
+            <h4 class="card-header"><i class="icon-graph"></i> Definitely Scales</h4>
             <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+              <p class="card-text">This template was built to scale and has tons of potential! See where we've implemented some of these templates below.</p>
             </div>
             <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
+              <a href="#" class="btn btn-primary">See Our Projects</a>
             </div>
           </div>
         </div>
       </div>
       <!-- /.row -->
-
-      <!-- Portfolio Section -->
-      <h2>Portfolio Heading</h2>
-
-      <div class="row">
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project One</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Two</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Three</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quisquam, error quod sed cumque, odio distinctio velit nostrum temporibus necessitatibus et facere atque iure perspiciatis mollitia recusandae vero vel quam!</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Four</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Five</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-6 portfolio-item">
-          <div class="card h-100">
-            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-            <div class="card-body">
-              <h4 class="card-title">
-                <a href="#">Project Six</a>
-              </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates, nemo repellat fugiat excepturi! Nemo, esse.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /.row -->
-
+        <br>
       <!-- Features Section -->
       <div class="row">
         <div class="col-lg-6">
-          <h2>Modern Business Features</h2>
+          <h2>Application Template Features</h2>
           <p>The Modern Business template by Start Bootstrap includes:</p>
           <ul>
             <li>

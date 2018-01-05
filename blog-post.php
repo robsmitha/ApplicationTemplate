@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         isset($_POST["hfBlogId"]) && $_POST["hfBlogId"] != "" ? $blogid = $_POST["hfBlogId"] : $returnVal = false;
         $currentDate = date('Y-m-d H:i:s');
         if($returnVal){
-            $blogcomment = new Blogcomment(0,$comment,$securityuserid,1,$blogid,$currentDate, null);
+            $blogcomment = new Blogcomment(0,$comment,$customerId,1,$blogid,$currentDate, null);
             $blogcomment->save();
             header("location: blog-post.php?id=$blogid");
         }
@@ -73,7 +73,7 @@ $blogCommentList = Blogcomment::loadbyblogid($blog->getId());
           <hr>
 
           <!-- Date/Time -->
-          <p>Posted on <?php echo $blog->getCreateDate() ?></p>
+          <p>Posted on <?php echo date_format(date_create($blog->getCreateDate()), 'g:ia \o\n l jS F Y') ?></p>
 
           <hr>
 
@@ -84,38 +84,66 @@ $blogCommentList = Blogcomment::loadbyblogid($blog->getId());
 
           <hr>
             <?php
-            if($securityuserid != null && $securityuserid > 0){
-            ?>
-                <!-- Comments Form -->
-                <div class="card my-4">
-                    <h5 class="card-header">Leave a Comment:</h5>
-                    <div class="card-body">
-                        <form method="post">
-                            <div class="form-group">
-                                <textarea name="comment" class="form-control" rows="3" required></textarea>
-                            </div>
-                            <button name="btnPostComment" id="btnPostComment" type="submit" class="btn btn-primary">Submit</button>
-                            <input type="hidden" name="hfBlogId" value="<?php echo $blog->getId() ?>">
-                        </form>
-                    </div>
-                </div>
-            <?php
-            }
             if(!empty($blogCommentList)){
+                ?>
+                <h3 class="text-center">Comments</h3>
+                <br>
+                <?php
                 foreach ($blogCommentList as $blogcomment){
                     $customer = new Customer($blogcomment->getCustomerId());
                     ?>
                     <!-- Single Comment -->
                     <div class="media mb-4">
                         <div class="media-body">
-                            <h5 class="mt-0"><?php echo $customer->getFirstName()." ".$customer->getLastName() ?></h5>
+                            <?php
+                            if($securityuserid > 0 || $customerId == $blogcomment->getCustomerId()){
+                                ?>
+                                <form method="post">
+                                    <input type="hidden" name="hfEventId" value="<?php echo $blog->getId() ?>">
+                                    <button type="submit" name="btnDeleteComment" value="<?php echo $blogcomment->getId() ?>" class="btn btn-outline-danger pull-right">Delete</button>
+                                </form>
+                                <?php
+                            }
+                            ?>
+                            <h5 class="mt-0 mb-0"><?php echo $customer->getFirstName()." ".$customer->getLastName() ?></h5>
                             <?php echo $blogcomment->getComment(); ?>
+                            <br>
+                            <small>Posted on <?php echo date_format(date_create($blogcomment->getCreateDate()), 'g:ia \o\n l jS F Y') ?></small>
+
                         </div>
                     </div>
-            <?php
+                    <?php
                 }
             }
-
+            if($customerId != null && $customerId > 0){
+                ?>
+                <!-- Comments Form -->
+                <b class="lead">Leave a Comment:</b>
+                <form method="post">
+                    <div class="form-group">
+                        <textarea name="comment" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <button name="btnPostComment" id="btnPostComment" type="submit" class="btn btn-primary">Submit</button>
+                    <input type="hidden" name="hfBlogId" value="<?php echo $blog->getId() ?>">
+                </form>
+                <?php
+            }
+            else{
+                ?>
+                <div class="alert alert-warning" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="alert-heading">Hold up!</h5>
+                    <p>Please <a href="login.php">Login</a> or <a href="create-customer.php">register</a> to comment on an blog.</p>
+                    <hr>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="login.php">Login</a>
+                        <a class="btn btn-default" href="create-customer.php">Register</a>
+                    </div>
+                </div>
+                <?php
+            }
             ?>
 
 
@@ -174,7 +202,7 @@ $blogCommentList = Blogcomment::loadbyblogid($blog->getId());
                       foreach ($blogCategoryLiat as $bc) {
                           ?>
                   <div class="col-lg-6">
-                      <a href="blog-home-1.php?id=<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></a>
+                      <a href="blog-home.php?id=<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></a>
                   </div>
                   <?php
                       }

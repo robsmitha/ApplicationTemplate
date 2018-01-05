@@ -186,7 +186,7 @@ class Itemstatustype {
 	public static function remove($paramId) {
 		include(self::getDbSettings());
 		$conn = new mysqli($servername, $username, $password, $dbname);
-		$stmt = $conn->prepare('CALL usp_itemstatustype_Remove(?)');
+		$stmt = $conn->prepare('CALL usp_itemstatustype_Delete(?)');
 		$stmt->bind_param('i', $paramId);
 		$stmt->execute();
 	}

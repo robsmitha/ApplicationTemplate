@@ -23,83 +23,33 @@
         </li>
         <li class="breadcrumb-item active">Portfolio 1</li>
       </ol>
+        <?php
+        $portfolioItemList = Portfolioitem::loadall();
+        if(!empty($portfolioItemList)){
+            foreach ($portfolioItemList as $portfolioitem){
+                ?>
+                <!-- Project One -->
+                <div class="row">
+                    <div class="col-md-7">
+                        <a href="portfolio-item.php?id=<?php echo $portfolioitem->getId() ?>">
+                            <img class="img-fluid rounded mb-3 mb-md-0" src="<?php echo $portfolioitem->getImageUrl() ?>" alt="">
+                        </a>
+                    </div>
+                    <div class="col-md-5">
+                        <h3><?php echo $portfolioitem->getName() ?></h3>
+                        <p><?php echo $portfolioitem->getDescription() ?></p>
+                        <a class="btn btn-primary" href="portfolio-item.php?id=<?php echo $portfolioitem->getId() ?>">View Project
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!-- /.row -->
 
-      <!-- Project One -->
-      <div class="row">
-        <div class="col-md-7">
-          <a href="#">
-            <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="">
-          </a>
-        </div>
-        <div class="col-md-5">
-          <h3>Project One</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
-          <a class="btn btn-primary" href="#">View Project
-            <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <hr>
-
-      <!-- Project Two -->
-      <div class="row">
-        <div class="col-md-7">
-          <a href="#">
-            <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="">
-          </a>
-        </div>
-        <div class="col-md-5">
-          <h3>Project Two</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, odit velit cumque vero doloremque repellendus distinctio maiores rem expedita a nam vitae modi quidem similique ducimus! Velit, esse totam tempore.</p>
-          <a class="btn btn-primary" href="#">View Project
-            <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <hr>
-
-      <!-- Project Three -->
-      <div class="row">
-        <div class="col-md-7">
-          <a href="#">
-            <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="">
-          </a>
-        </div>
-        <div class="col-md-5">
-          <h3>Project Three</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, temporibus, dolores, at, praesentium ut unde repudiandae voluptatum sit ab debitis suscipit fugiat natus velit excepturi amet commodi deleniti alias possimus!</p>
-          <a class="btn btn-primary" href="#">View Project
-            <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <hr>
-
-      <!-- Project Four -->
-      <div class="row">
-
-        <div class="col-md-7">
-          <a href="#">
-            <img class="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="">
-          </a>
-        </div>
-        <div class="col-md-5">
-          <h3>Project Four</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo, quidem, consectetur, officia rem officiis illum aliquam perspiciatis aspernatur quod modi hic nemo qui soluta aut eius fugit quam in suscipit?</p>
-          <a class="btn btn-primary" href="#">View Project
-            <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-        </div>
-      </div>
-      <!-- /.row -->
-
-      <hr>
+                <hr>
+        <?php
+            }
+        }
+        ?>
 
       <!-- Pagination -->
       <ul class="pagination justify-content-center">

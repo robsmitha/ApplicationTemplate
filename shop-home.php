@@ -1,5 +1,8 @@
 <?php include "classes.php" ?>
 <?php
+$customerId = SessionManager::getCustomerId();
+$securityuserId = SessionManager::getSecurityUserId();
+
 if($_SERVER["REQUEST_METHOD"] == "GET"){
     if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] > 0){
         $itemtypeid = $_GET["id"];
@@ -9,6 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         $itemList = Item::search(null,null,null,null,null,null,null,null,null);
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,8 +108,22 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                                     <h4 class="card-title">
                                         <a href="shop-item.php?id=<?php echo $item->getId() ?>"><?php echo $item->getName() ?></a>
                                     </h4>
-                                    <h5>$24.99</h5>
+                                    <h5>$<?php echo $item->getPrice() ?></h5>
                                     <p class="card-text"><?php echo $item->getDescription() ?></p>
+                                    <div class="btn-group">
+                                        <?php
+                                        if($customerId > 0){
+                                            ?>
+                                            <button class="btn btn-primary" onclick="addToCart(<?php echo $item->getId() ?>,<?php echo $item->getItemTypeId() ?>,<?php echo $item->getItemStatusTypeId() ?>);return false;"><i class="icon-plus"></i> Add</button>
+                                            <?php
+                                        }
+                                        if($securityuserId > 0){
+                                            ?>
+                                            <a href="create-item.php?id=<?php echo $item->getId(); ?>&cmd=edit" class="btn btn-danger">Edit</a>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
@@ -130,7 +148,35 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 
 <!-- Footer -->
 <?php include "footer.php" ?>
-
+<script>
+    function addToCart(id, itid, istid) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("cartCounter").innerText = this.responseText;
+                $('#myModal').modal('show');
+            }
+        };
+        xhttp.open("GET", "AJAX/addcartitem.php?id="+id+"&itid="+itid+"&istid="+istid, true);
+        xhttp.send();
+    }
+</script>
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="icon-check"></i> Added To Cart</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <a href="online-cart.php" class="btn btn-primary">Checkout Now</a>
+                <button type="button" class="btn btn-secondary" onclick="location.reload()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Bootstrap core JavaScript -->
 <?php include "scripts.php" ?>
 

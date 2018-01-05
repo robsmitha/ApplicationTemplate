@@ -95,6 +95,19 @@ if(SessionManager::getSecurityUserId() == 0){
                 </div>
             </a>
         </div>
+        <div class="col-sm-4">
+            <a href="create-portfolioitem.php">
+                <div class="tile">
+                    <div class="tile-title">
+                        <h3 class="text-white">Create Portfolio Item</h3>
+                        <p class="lead">Create a portfolio item that appears on the site.</p>
+                    </div>
+                    <div class="tile-footer">
+                        <i class="icon-arrow-right-circle pull-right fa-2x text-white"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 
 </div>

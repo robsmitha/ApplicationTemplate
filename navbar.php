@@ -18,6 +18,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">Contact</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="blog-home.php">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="event-home.php">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="shop-home.php">Shop</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Portfolio
@@ -32,15 +41,6 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Blog
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                        <a class="dropdown-item" href="blog-home-1.php">Blog Home 1</a>
-                        <a class="dropdown-item" href="blog-home-2.php">Blog Home 2</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Other Pages
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
@@ -51,23 +51,16 @@
                         <a class="dropdown-item" href="pricing.php">Pricing Table</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="event-home.php">Events</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="shop-home.php">Shop</a>
-                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <?php if(SessionManager::getSecurityUserId() > 0   //Security user logged in
-                    && SessionManager::getCustomerId() == 0) {
+                <?php if(SessionManager::getSecurityUserId() > 0 ) {
                     ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Administration
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdmin">
-                            <a class="dropdown-item" href="admin-dashboard.php">Admin Home</a>
+                            <a class="dropdown-item" href="admin-home.php">Admin Home</a>
                             <a class="dropdown-item" href="create-blog.php">Create Blog</a>
                             <a class="dropdown-item" href="create-item.php">Create Item</a>
                             <a class="dropdown-item" href="create-user.php">Create User</a>
@@ -96,6 +89,9 @@
                                 ?>
                             </span>
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="customer-profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>

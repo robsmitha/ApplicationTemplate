@@ -36,7 +36,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <?php include "head.php" ?>
 
-<body class="bg-light" id="page-top">
+<body class="bg-dark" id="page-top">
 <?php include "navbar.php" ?>
 <div class="container">
     <?php if(isset($validationMsg)) { ?>

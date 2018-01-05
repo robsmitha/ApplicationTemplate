@@ -53,10 +53,9 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
 <!-- Page Content -->
 <div class="container">
 
+    <h1 class="mt-4 mb-3 d-none d-sm-block"><?php echo nl2br($event->getName()) ?></h1>
 
-    <h1 class="mt-4 mb-3"><?php echo nl2br($event->getName()) ?>
-        <small>Subheading</small>
-    </h1>
+
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="index.php">Home</a>
@@ -68,7 +67,27 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
     </ol>
 
     <div class="row">
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+            <div>
+                <h4 class="mb-3">Event Details</h4>
+                <h5><?php echo date_format(date_create($event->getStartDate()), 'F j, Y') ?></h5>
+                <h5>
+                    <small><?php echo date_format(date_create($event->getStartDate()), 'g:i A')." To ".date_format(date_create($event->getEndDate()), 'g:i A') ?></small>
+                </h5>
+                <br>
+                <h5>
+                    <p><?php echo nl2br($event->getLocation()) ?></p>
+                </h5>
 
+                <br>
+                <a class="btn btn-primary btn-block btn-lg" href="<?php echo $event->getTicketLink() ?>">Get Tickets</a>
+                <br>
+                <a class="btn btn-default btn-block btn-lg" href="event-images.php?id=<?php echo $event->getId() ?>">View Images
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
         <!-- Post Content Column -->
         <div class="col-lg-8">
 
@@ -86,15 +105,17 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
             <?php
             if($securityuserid > 0){
                 ?>
-                <a class="btn btn-outline-danger btn-block" href="create-event.php?id=<?php echo $event->getId(); ?>&cmd=edit">Edit Event</a>
+                <a class="btn btn-outline-light btn-block" href="create-event.php?id=<?php echo $event->getId(); ?>&cmd=edit">Edit Event</a>
                 <?php
             }
             ?>
-            <hr>
-            <h3 class="text-center">Comments</h3>
             <br>
             <?php
             if(!empty($eventCommentList)){
+                ?>
+                <h3 class="text-center">Comments</h3>
+                <br>
+                <?php
                 foreach ($eventCommentList as $eventcomment){
                     $customer = new Customer($eventcomment->getCustomerId());
                     ?>
@@ -112,7 +133,7 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
                             }
                             ?>
                             <h5 class="mt-0 mb-0"><?php echo $customer->getFirstName()." ".$customer->getLastName() ?></h5>
-                            <?php echo $eventcomment->getComment(); ?>
+                            <?php echo nl2br($eventcomment->getComment()); ?>
                             <br>
                             <small>Posted on <?php echo date_format(date_create($eventcomment->getCreateDate()), 'g:ia \o\n l jS F Y') ?></small>
 
@@ -136,7 +157,7 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
             }
             else{
                 ?>
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-dark" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -154,28 +175,6 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
 
         </div>
 
-        <!-- Sidebar Widgets Column -->
-        <div class="col-md-4">
-            <div class="text-center">
-                <h4 class="mb-3">Event Details</h4>
-
-                <h5>
-                    <small class="badge badge-primary"><?php echo date_format(date_create($event->getStartDate()), 'm/d/y') ?></small>
-                </h5>
-                <h5>
-                    <small><?php echo date_format(date_create($event->getStartDate()), 'g:i A')." To ".date_format(date_create($event->getEndDate()), 'g:i A') ?></small>
-                </h5>
-                <br>
-                <br>
-                <h5>
-                    <b><?php echo nl2br($event->getLocation()) ?></b>
-                </h5>
-
-                <br>
-                <a class="btn btn-primary btn-block btn-lg" href="<?php echo $event->getTicketLink() ?>">Get Tickets</a>
-
-            </div>
-        </div>
 
     </div>
     <!-- /.row -->

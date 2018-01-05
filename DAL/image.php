@@ -268,4 +268,24 @@ class Image {
 			die("The query yielded zero results.No rows found.");
 		}
 	}
+    public static function loadbyeventid($paramEventId) {
+        include(self::getDbSettings());
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        $stmt = $conn->prepare('CALL usp_image_LoadByEventId(?)');
+        $stmt->bind_param('i', $paramEventId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if (!$result) die($conn->error);
+        if ($result->num_rows > 0) {
+            $arr = array();
+            while ($row = $result->fetch_assoc()) {
+                $image = new Image($row['Id'],$row['Name'],$row['Description'],$row['ImgUrl'],$row['EventId'],$row['Views'],$row['IsFeaturedImage']);
+                $arr[] = $image;
+            }
+            return $arr;
+        }
+        else {
+            //echo "The query yielded zero results.No rows found.";
+        }
+    }
 }

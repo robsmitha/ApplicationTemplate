@@ -35,7 +35,7 @@ if($cart != null){
                 </div>
                 <div>
                     <table class="table">
-                        <thead class="bg-dark white">
+                        <thead class="bg-secondary">
                         <tr>
                             <th>Item</th>
                             <th>Type</th>

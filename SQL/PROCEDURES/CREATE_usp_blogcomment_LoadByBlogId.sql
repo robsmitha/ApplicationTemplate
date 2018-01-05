@@ -8,7 +8,7 @@ BEGIN
 	SELECT
 		`blogcomment`.`Id` AS `Id`,
 		`blogcomment`.`Comment` AS `Comment`,
-		`blogcomment`.`SecurityUserId` AS `SecurityUserId`,
+		`blogcomment`.`CustomerId` AS `CustomerId`,
 		`blogcomment`.`BlogCommentStatusTypeId` AS `BlogCommentStatusTypeId`,
 		`blogcomment`.`BlogId` AS `BlogId`,
 		`blogcomment`.`CreateDate` AS `CreateDate`,

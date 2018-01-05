@@ -10,6 +10,11 @@ include_once("DAL/item.php");
 include_once("DAL/itemtype.php");
 include_once("DAL/itemstatustype.php");
 
+//order
+include_once ("DAL/order.php");
+include_once ("DAL/orderitem.php");
+include_once ("DAL/orderstatustype.php");
+
 //cart
 include_once("DAL/cart.php");
 include_once("DAL/cartstatustype.php");
@@ -32,6 +37,11 @@ include_once("DAL/event.php");
 include_once("DAL/eventtype.php");
 include_once("DAL/eventcomment.php");
 include_once("DAL/eventcommentstatustype.php");
+
+//portfolio
+include_once("DAL/portfoliocategory.php");
+include_once("DAL/portfolioitem.php");
+
 
 //Utilities
 include_once("Utilities/SessionManager.php");

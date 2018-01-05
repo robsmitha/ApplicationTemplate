@@ -32,13 +32,13 @@ DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_blogcomment_Search`;
 CREATE TABLE `applicationtemplate`.`blogcomment` (
 Id INT AUTO_INCREMENT,
 Comment VARCHAR(32768),
-SecurityUserId INT,
+CustomerId INT,
 BlogCommentStatusTypeId INT,
 BlogId INT,
 CreateDate DATETIME,
 EditDate DATETIME,
 CONSTRAINT pk_blogcomment_Id PRIMARY KEY (Id),
-CONSTRAINT fk_blogcomment_SecurityUserId_securityuser_Id FOREIGN KEY (SecurityUserId) REFERENCES securityuser (Id),
+CONSTRAINT fk_blogcomment_CustomerId_customer_Id FOREIGN KEY (CustomerId) REFERENCES customer (Id),
 CONSTRAINT fk_blogcomment_BlogCommentStatusTypeId_blogcommentstatustype_Id FOREIGN KEY (BlogCommentStatusTypeId) REFERENCES blogcommentstatustype (Id),
 CONSTRAINT fk_blogcomment_BlogId_blog_Id FOREIGN KEY (BlogId) REFERENCES blog (Id)
 );
@@ -58,7 +58,7 @@ BEGIN
 	SELECT
 		`blogcomment`.`Id` AS `Id`,
 		`blogcomment`.`Comment` AS `Comment`,
-		`blogcomment`.`SecurityUserId` AS `SecurityUserId`,
+		`blogcomment`.`CustomerId` AS `CustomerId`,
 		`blogcomment`.`BlogCommentStatusTypeId` AS `BlogCommentStatusTypeId`,
 		`blogcomment`.`BlogId` AS `BlogId`,
 		`blogcomment`.`CreateDate` AS `CreateDate`,
@@ -75,7 +75,7 @@ BEGIN
 	SELECT
 		`blogcomment`.`Id` AS `Id`,
 		`blogcomment`.`Comment` AS `Comment`,
-		`blogcomment`.`SecurityUserId` AS `SecurityUserId`,
+		`blogcomment`.`CustomerId` AS `CustomerId`,
 		`blogcomment`.`BlogCommentStatusTypeId` AS `BlogCommentStatusTypeId`,
 		`blogcomment`.`BlogId` AS `BlogId`,
 		`blogcomment`.`CreateDate` AS `CreateDate`,
@@ -88,15 +88,15 @@ DELIMITER //
 CREATE PROCEDURE `applicationtemplate`.`usp_blogcomment_Add`
 (
 	 IN paramComment VARCHAR(32768),
-	 IN paramSecurityUserId INT,
+	 IN paramCustomerId INT,
 	 IN paramBlogCommentStatusTypeId INT,
 	 IN paramBlogId INT,
 	 IN paramCreateDate DATETIME,
 	 IN paramEditDate DATETIME
 )
 BEGIN
-	INSERT INTO `blogcomment` (Comment,SecurityUserId,BlogCommentStatusTypeId,BlogId,CreateDate,EditDate)
-	VALUES (paramComment, paramSecurityUserId, paramBlogCommentStatusTypeId, paramBlogId, paramCreateDate, paramEditDate);
+	INSERT INTO `blogcomment` (Comment,CustomerId,BlogCommentStatusTypeId,BlogId,CreateDate,EditDate)
+	VALUES (paramComment, paramCustomerId, paramBlogCommentStatusTypeId, paramBlogId, paramCreateDate, paramEditDate);
 	-- Return last inserted ID as result
 	SELECT LAST_INSERT_ID() as id;
 END //
@@ -108,7 +108,7 @@ CREATE PROCEDURE `applicationtemplate`.`usp_blogcomment_Update`
 (
 	IN paramId INT,
 	IN paramComment VARCHAR(32768),
-	IN paramSecurityUserId INT,
+	IN paramCustomerId INT,
 	IN paramBlogCommentStatusTypeId INT,
 	IN paramBlogId INT,
 	IN paramCreateDate DATETIME,
@@ -117,7 +117,7 @@ CREATE PROCEDURE `applicationtemplate`.`usp_blogcomment_Update`
 BEGIN
 	UPDATE `blogcomment`
 	SET Comment = paramComment
-		,SecurityUserId = paramSecurityUserId
+		,CustomerId = paramCustomerId
 		,BlogCommentStatusTypeId = paramBlogCommentStatusTypeId
 		,BlogId = paramBlogId
 		,CreateDate = paramCreateDate
@@ -144,7 +144,7 @@ CREATE PROCEDURE `applicationtemplate`.`usp_blogcomment_Search`
 (
 	IN paramId INT,
 	IN paramComment VARCHAR(32768),
-	IN paramSecurityUserId INT,
+	IN paramCustomerId INT,
 	IN paramBlogCommentStatusTypeId INT,
 	IN paramBlogId INT,
 	IN paramCreateDate DATETIME,
@@ -154,7 +154,7 @@ BEGIN
 	SELECT
 		`blogcomment`.`Id` AS `Id`,
 		`blogcomment`.`Comment` AS `Comment`,
-		`blogcomment`.`SecurityUserId` AS `SecurityUserId`,
+		`blogcomment`.`CustomerId` AS `CustomerId`,
 		`blogcomment`.`BlogCommentStatusTypeId` AS `BlogCommentStatusTypeId`,
 		`blogcomment`.`BlogId` AS `BlogId`,
 		`blogcomment`.`CreateDate` AS `CreateDate`,
@@ -163,7 +163,7 @@ BEGIN
 	WHERE
 		COALESCE(blogcomment.`Id`,0) = COALESCE(paramId,blogcomment.`Id`,0)
 		AND COALESCE(blogcomment.`Comment`,'') = COALESCE(paramComment,blogcomment.`Comment`,'')
-		AND COALESCE(blogcomment.`SecurityUserId`,0) = COALESCE(paramSecurityUserId,blogcomment.`SecurityUserId`,0)
+		AND COALESCE(blogcomment.`CustomerId`,0) = COALESCE(paramCustomerId,blogcomment.`CustomerId`,0)
 		AND COALESCE(blogcomment.`BlogCommentStatusTypeId`,0) = COALESCE(paramBlogCommentStatusTypeId,blogcomment.`BlogCommentStatusTypeId`,0)
 		AND COALESCE(blogcomment.`BlogId`,0) = COALESCE(paramBlogId,blogcomment.`BlogId`,0)
 		AND COALESCE(CAST(blogcomment.`CreateDate` AS DATE), CAST(NOW() AS DATE)) = COALESCE(CAST(paramCreateDate AS DATE),CAST(blogcomment.`CreateDate` AS DATE), CAST(NOW() AS DATE))

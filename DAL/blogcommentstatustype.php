@@ -186,7 +186,7 @@ class Blogcommentstatustype {
 	public static function remove($paramId) {
 		include(self::getDbSettings());
 		$conn = new mysqli($servername, $username, $password, $dbname);
-		$stmt = $conn->prepare('CALL usp_blogcommentstatustype_Remove(?)');
+		$stmt = $conn->prepare('CALL usp_blogcommentstatustype_Delete(?)');
 		$stmt->bind_param('i', $paramId);
 		$stmt->execute();
 	}

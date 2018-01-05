@@ -39,7 +39,7 @@
             <a href="portfolio-3-col.php" class="list-group-item">3 Column Portfolio</a>
             <a href="portfolio-4-col.php" class="list-group-item">4 Column Portfolio</a>
             <a href="portfolio-item.php" class="list-group-item">Single Portfolio Item</a>
-            <a href="blog-home-1.php" class="list-group-item">Blog Home 1</a>
+            <a href="blog-home.php" class="list-group-item">Blog Home 1</a>
             <a href="blog-home-2.php" class="list-group-item">Blog Home 2</a>
             <a href="blog-post.php" class="list-group-item">Blog Post</a>
             <a href="full-width.php" class="list-group-item">Full Width Page</a>

@@ -186,7 +186,7 @@ class Cartstatustype {
     public static function remove($paramId) {
         include(self::getDbSettings());
         $conn = new mysqli($servername, $username, $password, $dbname);
-        $stmt = $conn->prepare('CALL usp_cartstatustype_Remove(?)');
+        $stmt = $conn->prepare('CALL usp_cartstatustype_Delete(?)');
         $stmt->bind_param('i', $paramId);
         $stmt->execute();
     }

@@ -281,4 +281,24 @@ class Cartitem {
 			die("The query yielded zero results.No rows found.");
 		}
 	}
+    public static function loadbycartid($paramCartId) {
+        include(self::getDbSettings());
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        $stmt = $conn->prepare('CALL usp_cartitem_LoadByCartId(?)');
+        $stmt->bind_param('i', $paramCartId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if (!$result) die($conn->error);
+        if ($result->num_rows > 0) {
+            $arr = array();
+            while ($row = $result->fetch_assoc()) {
+                $cartitem = new Cartitem($row['Id'],$row['CartId'],$row['ItemId'],$row['AddDate'],$row['Quantity'],$row['ItemStartDate'],$row['ItemEndDate'],$row['ItemTypeId']);
+                $arr[] = $cartitem;
+            }
+            return $arr;
+        }
+        else {
+            //echo "The query yielded zero results.No rows found.";
+        }
+    }
 }

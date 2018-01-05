@@ -19,7 +19,7 @@ class Blogcomment {
 
 	protected $Id;
 	protected $Comment;
-	protected $SecurityUserId;
+	protected $CustomerId;
 	protected $BlogCommentStatusTypeId;
 	protected $BlogId;
 	protected $CreateDate;
@@ -47,7 +47,7 @@ class Blogcomment {
 	public function __constructBase() {
 		$this->Id = 0;
 		$this->Comment = "";
-		$this->SecurityUserId = 0;
+		$this->CustomerId = 0;
 		$this->BlogCommentStatusTypeId = 0;
 		$this->BlogId = 0;
 		$this->CreateDate = "";
@@ -60,10 +60,10 @@ class Blogcomment {
 	}
 
 
-	public function __constructFull($paramId,$paramComment,$paramSecurityUserId,$paramBlogCommentStatusTypeId,$paramBlogId,$paramCreateDate,$paramEditDate) {
+	public function __constructFull($paramId,$paramComment,$paramCustomerId,$paramBlogCommentStatusTypeId,$paramBlogId,$paramCreateDate,$paramEditDate) {
 		$this->Id = $paramId;
 		$this->Comment = $paramComment;
-		$this->SecurityUserId = $paramSecurityUserId;
+		$this->CustomerId = $paramCustomerId;
 		$this->BlogCommentStatusTypeId = $paramBlogCommentStatusTypeId;
 		$this->BlogId = $paramBlogId;
 		$this->CreateDate = $paramCreateDate;
@@ -87,11 +87,11 @@ class Blogcomment {
 	public function setComment($value){
 		$this->Comment = $value;
 	}
-	public function getSecurityUserId(){
-		return $this->SecurityUserId;
+	public function getCustomerId(){
+		return $this->CustomerId;
 	}
-	public function setSecurityUserId($value){
-		$this->SecurityUserId = $value;
+	public function setCustomerId($value){
+		$this->CustomerId = $value;
 	}
 	public function getBlogCommentStatusTypeId(){
 		return $this->BlogCommentStatusTypeId;
@@ -137,7 +137,7 @@ class Blogcomment {
 		while ($row = $result->fetch_assoc()) {
 		 $this->setId($row['Id']);
 		 $this->setComment($row['Comment']);
-		 $this->setSecurityUserId($row['SecurityUserId']);
+		 $this->setCustomerId($row['CustomerId']);
 		 $this->setBlogCommentStatusTypeId($row['BlogCommentStatusTypeId']);
 		 $this->setBlogId($row['BlogId']);
 		 $this->setCreateDate($row['CreateDate']);
@@ -164,7 +164,7 @@ class Blogcomment {
 		$conn = new mysqli($servername, $username, $password, $dbname);
 		$stmt = $conn->prepare('CALL usp_blogcomment_Add(?,?,?,?,?,?)');
 		$arg1 = $this->getComment();
-		$arg2 = $this->getSecurityUserId();
+		$arg2 = $this->getCustomerId();
 		$arg3 = $this->getBlogCommentStatusTypeId();
 		$arg4 = $this->getBlogId();
 		$arg5 = $this->getCreateDate();
@@ -187,7 +187,7 @@ class Blogcomment {
 		$stmt = $conn->prepare('CALL usp_blogcomment_Update(?,?,?,?,?,?,?)');
 		$arg1 = $this->getId();
 		$arg2 = $this->getComment();
-		$arg3 = $this->getSecurityUserId();
+		$arg3 = $this->getCustomerId();
 		$arg4 = $this->getBlogCommentStatusTypeId();
 		$arg5 = $this->getBlogId();
 		$arg6 = $this->getCreateDate();
@@ -220,7 +220,7 @@ class Blogcomment {
 		if ($result->num_rows > 0) {
 			$arr = array();
 			while ($row = $result->fetch_assoc()) {
-				$blogcomment = new Blogcomment($row['Id'],$row['Comment'],$row['SecurityUserId'],$row['BlogCommentStatusTypeId'],$row['BlogId'],$row['CreateDate'],$row['EditDate']);
+				$blogcomment = new Blogcomment($row['Id'],$row['Comment'],$row['CustomerId'],$row['BlogCommentStatusTypeId'],$row['BlogId'],$row['CreateDate'],$row['EditDate']);
 				$arr[] = $blogcomment;
 			}
 			return $arr;
@@ -234,19 +234,19 @@ class Blogcomment {
 	public static function remove($paramId) {
 		include(self::getDbSettings());
 		$conn = new mysqli($servername, $username, $password, $dbname);
-		$stmt = $conn->prepare('CALL usp_blogcomment_Remove(?)');
+		$stmt = $conn->prepare('CALL usp_blogcomment_Delete(?)');
 		$stmt->bind_param('i', $paramId);
 		$stmt->execute();
 	}
 
 
-	public static function search($paramId,$paramComment,$paramSecurityUserId,$paramBlogCommentStatusTypeId,$paramBlogId,$paramCreateDate,$paramEditDate) {
+	public static function search($paramId,$paramComment,$paramCustomerId,$paramBlogCommentStatusTypeId,$paramBlogId,$paramCreateDate,$paramEditDate) {
 		include(self::getDbSettings());
 		$conn = new mysqli($servername, $username, $password, $dbname);
 		$stmt = $conn->prepare('CALL usp_blogcomment_Search(?,?,?,?,?,?,?)');
 		$arg1 = Blogcomment::setNullValue($paramId);
 		$arg2 = Blogcomment::setNullValue($paramComment);
-		$arg3 = Blogcomment::setNullValue($paramSecurityUserId);
+		$arg3 = Blogcomment::setNullValue($paramCustomerId);
 		$arg4 = Blogcomment::setNullValue($paramBlogCommentStatusTypeId);
 		$arg5 = Blogcomment::setNullValue($paramBlogId);
 		$arg6 = Blogcomment::setNullValue($paramCreateDate);
@@ -259,7 +259,7 @@ class Blogcomment {
 		if ($result->num_rows > 0) {
 			$arr = array();
 			while ($row = $result->fetch_assoc()) {
-				$blogcomment = new Blogcomment($row['Id'],$row['Comment'],$row['SecurityUserId'],$row['BlogCommentStatusTypeId'],$row['BlogId'],$row['CreateDate'],$row['EditDate']);
+				$blogcomment = new Blogcomment($row['Id'],$row['Comment'],$row['CustomerId'],$row['BlogCommentStatusTypeId'],$row['BlogId'],$row['CreateDate'],$row['EditDate']);
 				$arr[] = $blogcomment;
 			}
 			return $arr;
@@ -279,13 +279,13 @@ class Blogcomment {
         if ($result->num_rows > 0) {
             $arr = array();
             while ($row = $result->fetch_assoc()) {
-                $blogcomment = new Blogcomment($row['Id'],$row['Comment'],$row['SecurityUserId'],$row['BlogCommentStatusTypeId'],$row['BlogId'],$row['CreateDate'],$row['EditDate']);
+                $blogcomment = new Blogcomment($row['Id'],$row['Comment'],$row['CustomerId'],$row['BlogCommentStatusTypeId'],$row['BlogId'],$row['CreateDate'],$row['EditDate']);
                 $arr[] = $blogcomment;
             }
             return $arr;
         }
         else {
-            echo "The query yielded zero results.No rows found.";
+            //echo "The query yielded zero results.No rows found.";
         }
     }
 }
