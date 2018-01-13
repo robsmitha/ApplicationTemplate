@@ -85,7 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
             <div class="card mx-auto mt-5">
-                <div class="card-header">Create Portfolio Portfolio Item
+                <div class="card-header">Create Portfolio Item
                     <?php
                     if(isset($portfolioitem)) {
                         ?>

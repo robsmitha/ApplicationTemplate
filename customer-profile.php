@@ -35,7 +35,7 @@ else{
     </ol>
     <div class="card">
         <div class="card-header">
-            Customer Information
+            Customer Information<a href="create-customer.php?cmd=edit&id=<?php echo $customer->getId() ?>" class="btn btn-dark pull-right">Edit Profile</a>
         </div>
         <div class="card-body">
             <div class="row">

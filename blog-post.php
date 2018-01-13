@@ -4,6 +4,12 @@ $customerId = SessionManager::getCustomerId() == 0 ? null : SessionManager::getC
 $securityuserid = SessionManager::getSecurityUserId() == 0 ? null : SessionManager::getSecurityUserId();
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST["btnDelete"])){
+        if(is_numeric($_POST["btnDelete"])){
+            Blog::remove($_POST["btnDelete"]);
+            header("location: blog-home.php");
+        }
+    }
     $returnVal = true;
     if(isset($_POST["btnPostComment"])){
         isset($_POST["comment"]) && $_POST["comment"] != "" ? $comment = $_POST["comment"] : $returnVal = false;
@@ -39,50 +45,58 @@ $blogCommentList = Blogcomment::loadbyblogid($blog->getId());
 
 <?php include "head.php" ?>
 
-  <body>
+<body>
 
-    <!-- Navigation -->
-    <?php include "navbar.php" ?>
+<!-- Navigation -->
+<?php include "navbar.php" ?>
 
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
-      <!-- Page Heading/Breadcrumbs -->
-      <h1 class="mt-4 mb-3">
-          <?php echo $blog->getTitle() ?>
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">
+        <?php echo $blog->getTitle() ?>
         <small>by
-          <a href="#"><?php echo $blog->getSecurityUserId() ?></a>
+            <a href="#">
+                <?php
+                $user = new Securityuser($blog->getSecurityUserId());
+                echo  $user->getUsername();
+                ?>
+            </a>
         </small>
-      </h1>
+    </h1>
 
-      <ol class="breadcrumb">
+    <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="index.php">Home</a>
+            <a href="index.php">Home</a>
         </li>
-        <li class="breadcrumb-item active">Blog Home 2</li>
-      </ol>
+        <li class="breadcrumb-item">
+            <a href="blog-home.php">Blog</a>
+        </li>
+        <li class="breadcrumb-item active"><?php echo $blog->getTitle() ?></li>
+    </ol>
 
-      <div class="row">
+    <div class="row">
 
         <!-- Post Content Column -->
         <div class="col-lg-8">
 
-          <!-- Preview Image -->
-          <img class="img-fluid rounded" src="<?php echo $blog->getImgUrl() ?>" alt="">
+            <!-- Preview Image -->
+            <img class="img-fluid rounded" src="<?php echo $blog->getImgUrl() ?>" alt="">
 
-          <hr>
+            <hr>
 
-          <!-- Date/Time -->
-          <p>Posted on <?php echo date_format(date_create($blog->getCreateDate()), 'g:ia \o\n l jS F Y') ?></p>
+            <!-- Date/Time -->
+            <p>Posted on <?php echo date_format(date_create($blog->getCreateDate()), 'g:ia \o\n l jS F Y') ?></p>
 
-          <hr>
+            <hr>
 
-          <!-- Post Content -->
-          <p>
-              <?php echo nl2br($blog->getDescription()) ?>
-          </p>
+            <!-- Post Content -->
+            <p>
+                <?php echo nl2br($blog->getDescription()) ?>
+            </p>
 
-          <hr>
+            <hr>
             <?php
             if(!empty($blogCommentList)){
                 ?>
@@ -147,93 +161,118 @@ $blogCommentList = Blogcomment::loadbyblogid($blog->getId());
             ?>
 
 
-          <!-- Comment with nested comments
-          <div class="media mb-4">
-            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-            <div class="media-body">
-              <h5 class="mt-0">Commenter Name</h5>
-              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            <!-- Comment with nested comments
+            <div class="media mb-4">
+              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+              <div class="media-body">
+                <h5 class="mt-0">Commenter Name</h5>
+                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <div class="media mt-4">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                  <div class="media-body">
+                    <h5 class="mt-0">Commenter Name</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  </div>
                 </div>
-              </div>
 
-              <div class="media mt-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                  <h5 class="mt-0">Commenter Name</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <div class="media mt-4">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                  <div class="media-body">
+                    <h5 class="mt-0">Commenter Name</h5>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  </div>
                 </div>
-              </div>
 
-            </div>
-          </div> -->
+              </div>
+            </div> -->
 
         </div>
 
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
+            <?php
+            if($securityuserid > 0){
+                ?>
+                <div class="dropdown show mb-2">
+                    <a class="btn btn-secondary dropdown-toggle btn-block" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage Blog
+                    </a>
 
-          <!-- Search Widget -->
-          <div class="card mb-4">
-            <h5 class="card-header">Search</h5>
-            <div class="card-body">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                  <button class="btn btn-secondary" type="button">Go!</button>
-                </span>
+                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="create-blog.php?id=<?php echo $blog->getId(); ?>&cmd=edit">Edit</a>
+                        <form method="post">
+                            <button name="btnDelete" class="dropdown-item" value="<?php echo $blog->getId()?>">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+            <!-- Categories Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Categories</h5>
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <?php
+                        $blogCategoryLiat = Blogcategory::loadall();
+                        if(!empty($blogCategoryLiat)){
+                            foreach ($blogCategoryLiat as $bc) {
+                                ?>
+                                <div class="col-lg-6">
+                                    <a href="blog-home.php?id=<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></a>
+                                    <?php
+                                    if($securityuserid > 0){
+                                        ?>
+                                        <a href="create-type.php?cmd=edit&type=blogcategory&id=<?php echo $bc->getId() ?>" class="text-danger"><i class="icon-pencil"></i></a>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Side Widget</h5>
+                <div class="card-body">
+                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+            </div>
+            <!-- Search Widget
+            <div class="card mb-4">
+              <h5 class="card-header">Search</h5>
+              <div class="card-body">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Go!</button>
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Categories Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Categories</h5>
-            <div class="card-body">
-              <div class="row">
-                  <?php
-                  $blogCategoryLiat = Blogcategory::loadall();
-                  if(!empty($blogCategoryLiat)){
-                      foreach ($blogCategoryLiat as $bc) {
-                          ?>
-                  <div class="col-lg-6">
-                      <a href="blog-home.php?id=<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></a>
-                  </div>
-                  <?php
-                      }
-                  }
-                  ?>
-              </div>
-            </div>
-          </div>
-
-          <!-- Side Widget -->
-          <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
-            <div class="card-body">
-              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
-            </div>
-          </div>
+            </div> -->
 
         </div>
 
-      </div>
-      <!-- /.row -->
-
     </div>
-    <!-- /.container -->
+    <!-- /.row -->
 
-    <!-- Footer -->
-    <?php include "footer.php" ?>
+</div>
+<!-- /.container -->
 
-    <!-- Bootstrap core JavaScript -->
-    <?php include "scripts.php" ?>
+<!-- Footer -->
+<?php include "footer.php" ?>
 
-  </body>
+<!-- Bootstrap core JavaScript -->
+<?php include "scripts.php" ?>
+
+</body>
 
 </html>

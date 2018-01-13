@@ -1,6 +1,7 @@
 <?php include "classes.php" ?>
 <?php
 $customerId = SessionManager::getCustomerId();
+$securityUserId = SessionManager::getSecurityUserId();
 if($_SERVER["REQUEST_METHOD"] == "GET"){
     if(isset($_GET["id"]) && is_numeric($_GET["id"]) && $_GET["id"] > 0){
         $itemid = $_GET["id"];
@@ -18,6 +19,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST["btnDelete"])){
+        if(is_numeric($_POST["btnDelete"])){
+            Item::remove($_POST["btnDelete"]);
+            header("location: shop-home.php");
+        }
+    }
     if(isset($_POST["btnAddToCart"])){
         $itemid = $_POST["hfItemId"];
         $itemtypeid = $_POST["hfItemTypeId"];
@@ -71,32 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <div class="container">
 
     <div class="row">
-
-        <div class="col-lg-3">
-            <h1 class="my-4">Shop Name</h1>
-            <div class="list-group">
-                <?php
-                $itemTypeList = Itemtype::loadall();
-                if(!empty($itemTypeList)){
-                    foreach ($itemTypeList as $itemtype){
-                        if($itemtype->getId() == $item->getItemTypeId()){
-                            ?>
-                            <a href="shop-home.php?id=<?php echo $itemtype->getId() ?>" class="list-group-item active"><?php echo $itemtype->getName() ?></a>
-                            <?php
-                        }
-                        else{
-                            ?>
-                            <a href="shop-home.php?id=<?php echo $itemtype->getId() ?>" class="list-group-item"><?php echo $itemtype->getName() ?></a>
-                            <?php
-                        }
-                    }
-                }
-                ?>
-            </div>
-        </div>
-        <!-- /.col-lg-3 -->
-
-        <div class="col-lg-9">
+        <div class="col-lg-8">
             <!--<div id="alertAddedToCart" class="alert alert-warning alert-dismissible fade show" role="alert">
                 <strong>Holy guacamole!</strong> You should check in on some of those fields below.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -116,13 +98,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $i = 0;
                     while ($i < $item->getRating()){
                         ?>
-                    <span class="text-warning"> &#9733;</span>
-                    <?php
+                        <span class="text-warning"> &#9733;</span>
+                        <?php
                         $i++;
                     }
                     echo $i
                     ?>
-                     stars
+                    stars
                     <hr>
                     <?php if($customerId > 0) {
                         ?>
@@ -198,10 +180,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 <button type="submit" name="btnAddToCart" id="btnAddToCart" class="btn btn-default"><i class="icon-arrow-right-circle"></i> Add & Checkout</button>
                             </div>
                         </form>
-                        <?php
+                    <?php
                     }
                     else{
-                        ?>
+                    ?>
                         <a class="btn btn-primary pull-right" href="login.php"><i class="icon-login"></i> Login</a>
                         <?php
                     }
@@ -216,7 +198,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     Product Reviews
                 </div>
                 <div class="card-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                    <h4>Coming Soon!</h4>
+                    <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
                     <small class="text-muted">Posted by Anonymous on 3/1/17</small>
                     <hr>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
@@ -225,14 +208,72 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
                     <small class="text-muted">Posted by Anonymous on 3/1/17</small>
                     <hr>
-                    <a href="#" class="btn btn-success">Leave a Review</a>
+                    <a href="#" class="btn btn-success">Leave a Review</a>-->
                 </div>
             </div>
             <!-- /.card -->
 
         </div>
-        <!-- /.col-lg-9 -->
+        <!-- /.col-lg-6 -->
+        <div class="col-lg-4">
+            <?php
+            if($securityUserId > 0){
+                ?>
+                <br>
+                <div class="dropdown show mb-2">
+                    <a class="btn btn-secondary dropdown-toggle btn-block" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage Item
+                    </a>
 
+                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="create-item.php?id=<?php echo $item->getId(); ?>&cmd=edit">Edit</a>
+                        <form method="post">
+                            <button name="btnDelete" class="dropdown-item" value="<?php echo $item->getId()?>">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+            <!-- Categories Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Categories</h5>
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <?php
+                        $itemTypeList = Itemtype::loadall();
+                        if(!empty($itemTypeList)){
+                            foreach ($itemTypeList as $itemtype){
+                                ?>
+                                <div class="col-lg-6">
+                                    <a href="shop-home.php?id=<?php echo $itemtype->getId() ?>"><?php echo $itemtype->getName() ?></a>
+                                    <?php
+                                    if($securityUserId > 0){
+                                        ?>
+                                        <a href="create-type.php?cmd=edit&type=itemtype&id=<?php echo $itemtype->getId() ?>" class="text-danger"><i class="icon-pencil"></i></a>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Side Widget</h5>
+                <div class="card-body">
+                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
     </div>
 
 </div>

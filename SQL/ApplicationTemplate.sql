@@ -1251,7 +1251,7 @@ Email VARCHAR(255),
 RoleId INT,
 CreateDate DATETIME,
 CONSTRAINT pk_securityuser_Id PRIMARY KEY (Id),
-CONSTRAINT fk_securityuser_RoleId_Role_Id FOREIGN KEY (RoleId) REFERENCES Role (Id)
+CONSTRAINT fk_securityuser_RoleId_Role_Id FOREIGN KEY (RoleId) REFERENCES role (Id)
 );
 
 
@@ -3134,6 +3134,231 @@ BEGIN
 END //
 DELIMITER ;
 
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_blogcomment_LoadByBlogId`
+(
+	 IN paramBlogId INT
+)
+BEGIN
+	SELECT
+		`blogcomment`.`Id` AS `Id`,
+		`blogcomment`.`Comment` AS `Comment`,
+		`blogcomment`.`CustomerId` AS `CustomerId`,
+		`blogcomment`.`BlogCommentStatusTypeId` AS `BlogCommentStatusTypeId`,
+		`blogcomment`.`BlogId` AS `BlogId`,
+		`blogcomment`.`CreateDate` AS `CreateDate`,
+		`blogcomment`.`EditDate` AS `EditDate`
+	FROM `blogcomment`
+	WHERE 		`blogcomment`.`BlogId` = paramBlogId;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_CalculateTotal`
+(
+	 IN paramCartId INT
+)
+BEGIN
+	SELECT
+		SUM(`item`.`Price`) AS 'TotalPrice'
+	FROM `cartitem`
+	JOIN `item` ON `item`.`Id` = `cartitem`.`ItemId`
+	WHERE 		`cartitem`.`cartId` = paramCartId;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_GetCartCount`
+(
+	 IN paramCartId INT
+)
+BEGIN
+	SELECT
+		COUNT(*) AS 'NumberOfItems'
+	FROM `cartitem`
+	WHERE 		`cartitem`.`cartId` = paramCartId;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_cart_LoadByCustomerId`
+(
+	 IN paramCustomerId INT
+)
+BEGIN
+	SELECT DISTINCT
+		`cart`.`Id` AS `Id`,
+		`cart`.`CustomerId` AS `CustomerId`,
+		`cart`.`CartStatusTypeId` AS `CartStatusTypeId`,
+		`cart`.`CreateDate` AS `CreateDate`,
+		`cart`.`CheckoutDate` AS `CheckoutDate`
+	FROM `cart`
+	WHERE 		`cart`.`CustomerId` = paramCustomerId
+	AND `cart`.`CheckoutDate` IS NULL;  -- cart has not been checked out yet
+END //
+DELIMITER ;
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_LoadOnlineCart`
+(
+	 IN paramCartId INT
+)
+BEGIN
+	SELECT
+		`item`.`Name` AS `ItemName`,
+		`item`.`Description` AS `ItemDescription`,
+		`item`.`ImgUrl` AS `ImgUrl`,
+		`item`.`Price` AS `Price`,
+		(SELECT `itemstatustype`.`Name` FROM `itemstatustype` WHERE `itemstatustype`.`Id` = `item`.`ItemStatusTypeId`) AS `ItemStatusType`,
+		(SELECT CONCAT(`customer`.`FirstName`, " ", `customer`.`LastName`) FROM `customer` WHERE `customer`.`Id` = `cart`.`CustomerId`) AS `CustomerName`,
+		`cartitem`.`Quantity` AS `Quantity`,
+		`cartitem`.`ItemStartDate` AS `ItemStartDate`,
+		`cartitem`.`ItemEndDate` AS `ItemEndDate`,
+		(SELECT `itemtype`.`name` FROM `itemtype` WHERE `itemtype`.`Id` = `item`.`ItemTypeId`) AS `ItemType`,
+		`cartitem`.`Id` AS `CartItemId`
+	FROM `cartitem`
+	JOIN `cart` ON `cart`.`id` = `cartitem`.cartId
+	JOIN `item` ON `item`.`Id` = `cartitem`.`ItemId`
+	WHERE 		`cartitem`.`cartId` = paramCartId;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_customer_Lookup`
+(
+	IN paramEmail VARCHAR(255)
+)
+BEGIN
+  SELECT
+	  `customer`.`Id` AS `Id`,
+		`customer`.`FirstName` AS `FirstName`,
+		`customer`.`LastName` AS `LastName`,
+		`customer`.`Email` AS `Email`,
+		`customer`.`Password` AS `Password`,
+		`customer`.`CreateDate` AS `CreateDate`
+	FROM `customer`
+	WHERE 		`customer`.`Email` = paramEmail;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_eventcomment_LoadByEventId`
+(
+	 IN paramEventId INT
+)
+BEGIN
+	SELECT
+		`eventcomment`.`Id` AS `Id`,
+		`eventcomment`.`Comment` AS `Comment`,
+		`eventcomment`.`CustomerId` AS `CustomerId`,
+		`eventcomment`.`EventCommentStatusTypeId` AS `EventCommentStatusTypeId`,
+		`eventcomment`.`EventId` AS `EventId`,
+		`eventcomment`.`CreateDate` AS `CreateDate`,
+		`eventcomment`.`EditDate` AS `EditDate`
+	FROM `eventcomment`
+	WHERE 		`eventcomment`.`EventId` = paramEventId;
+END //
+DELIMITER ;
+
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_imagecomment_LoadByImageId`
+(
+	 IN paramImageId INT
+)
+BEGIN
+	SELECT
+		`imagecomment`.`Id` AS `Id`,
+		`imagecomment`.`Comment` AS `Comment`,
+		`imagecomment`.`CustomerId` AS `CustomerId`,
+		`imagecomment`.`ImageCommentStatusTypeId` AS `ImageCommentStatusTypeId`,
+		`imagecomment`.`ImageId` AS `ImageId`,
+		`imagecomment`.`CreateDate` AS `CreateDate`,
+		`imagecomment`.`EditDate` AS `EditDate`
+	FROM `imagecomment`
+	WHERE 		`imagecomment`.`ImageId` = paramImageId;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_securityuser_Lookup`
+(
+	IN paramUsername VARCHAR(255)
+)
+BEGIN
+  SELECT
+			`securityuser`.`Id` AS `Id`,
+		`securityuser`.`Username` AS `Username`,
+		`securityuser`.`Password` AS `Password`,
+		`securityuser`.`Email` AS `Email`,
+		`securityuser`.`RoleId` AS `RoleId`,
+		`securityuser`.`CreateDate` AS `CreateDate`
+	FROM `securityuser`
+	WHERE 		`securityuser`.`Username` = paramUsername;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_image_LoadFeaturedImages`
+()
+BEGIN
+	SELECT
+		`image`.`Id` AS `Id`,
+		`image`.`Name` AS `Name`,
+		`image`.`Description` AS `Description`,
+		`image`.`ImgUrl` AS `ImgUrl`,
+		`image`.`EventId` AS `EventId`,
+		`image`.`Views` AS `Views`,
+		`image`.`IsFeaturedImage` AS `IsFeaturedImage`
+	FROM `image`
+	WHERE `image`.`IsFeaturedImage` = 1;
+END //
+DELIMITER ;
+
+use applicationtemplate;
+INSERT INTO `blogcategory` (`Id`, `Name`, `Description`) VALUES (1, 'Bootstrap 4', 'New Bootstrap framework');
+
+use applicationtemplate;
+INSERT INTO `blogcommentstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Active', 'Comment will appear on blog post.');
+
+use applicationtemplate;
+
+INSERT INTO `cartstatustype` (`Id`, `Name`, `Description`) VALUES (1, 'Active Cart', 'Cart has not been checkout and is recognized as active. We will not delete any active carts.');
+INSERT INTO `cartstatustype` (`Id`, `Name`, `Description`) VALUES (2, 'Inactive Cart', 'Cart has been checked out or abandoned.');
+
+use applicationtemplate;
+INSERT INTO `eventcommentstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Active', 'Comment will appear on event page.');
+
+use applicationtemplate;
+INSERT INTO `eventtype` (`Id`, `Name`, `Description`) VALUES ('1', 'General', 'General Event.');
+
+use applicationtemplate;
+INSERT INTO `imagecommentstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Active', 'Comment will appear on image post.');
+
+use applicationtemplate;
+INSERT INTO `itemtype` (`Id`, `Name`, `Description`) VALUES ('1', 'General', 'General Item Category');
+INSERT INTO `itemtype` (`Id`, `Name`, `Description`) VALUES ('2', 'Subscriptions', 'Subscriptions with effective start end dates');
+INSERT INTO `itemtype` (`Id`, `Name`, `Description`) VALUES ('3', 'Tickets', 'Tickets with effective start end dates');
+
+use applicationtemplate;
+
+INSERT INTO `itemstatustype` (`Id`, `Name`, `Description`) VALUES (1, 'Active Item', 'Item will appear on site');
+INSERT INTO `itemstatustype` (`Id`, `Name`, `Description`) VALUES (2, 'Inactive Item', 'Item will not appear on site');
+INSERT INTO `itemstatustype` (`Id`, `Name`, `Description`) VALUES (3, 'On Sale Item', 'Item is on sale');
+
+use applicationtemplate;
+INSERT INTO `role` (`Id`, `Name`, `Description`) VALUES ('1', 'Administrator', 'Administrator Role.');
 
 
 /*
@@ -3627,241 +3852,320 @@ END //
 DELIMITER ;
 
 
+/*
+Author:			This code was generated by DALGen version 1.1.0.0 available at https://github.com/H0r53/DALGen
+Date:			1/4/2018
+Description:	Creates the portfoliocategory table and respective stored procedures
 
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_LoadByCartId`
-(
-	 IN paramCartId INT
-)
-BEGIN
-	SELECT
-		`cartitem`.`Id` AS `Id`,
-		`cartitem`.`CartId` AS `CartId`,
-		`cartitem`.`ItemId` AS `ItemId`,
-		`cartitem`.`AddDate` AS `AddDate`,
-		`cartitem`.`Quantity` AS `Quantity`,
-		`cartitem`.`ItemStartDate` AS `ItemStartDate`,
-		`cartitem`.`ItemEndDate` AS `ItemEndDate`,
-		`cartitem`.`ItemTypeId` AS `ItemTypeId`
-	FROM `cartitem`
-	WHERE 		`cartitem`.`CartId` = paramCartId;
-END //
-DELIMITER ;
+*/
+
+
+USE applicationtemplate;
 
 
 
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_blogcomment_LoadByBlogId`
-(
-	 IN paramBlogId INT
-)
-BEGIN
-	SELECT
-		`blogcomment`.`Id` AS `Id`,
-		`blogcomment`.`Comment` AS `Comment`,
-		`blogcomment`.`CustomerId` AS `CustomerId`,
-		`blogcomment`.`BlogCommentStatusTypeId` AS `BlogCommentStatusTypeId`,
-		`blogcomment`.`BlogId` AS `BlogId`,
-		`blogcomment`.`CreateDate` AS `CreateDate`,
-		`blogcomment`.`EditDate` AS `EditDate`
-	FROM `blogcomment`
-	WHERE 		`blogcomment`.`BlogId` = paramBlogId;
-END //
-DELIMITER ;
+-- ------------------------------------------------------------
+-- Drop existing objects
+-- ------------------------------------------------------------
 
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_CalculateTotal`
-(
-	 IN paramCartId INT
-)
-BEGIN
-	SELECT
-		SUM(`item`.`Price`) AS 'TotalPrice'
-	FROM `cartitem`
-	JOIN `item` ON `item`.`Id` = `cartitem`.`ItemId`
-	WHERE 		`cartitem`.`cartId` = paramCartId;
-END //
-DELIMITER ;
-
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_GetCartCount`
-(
-	 IN paramCartId INT
-)
-BEGIN
-	SELECT
-		COUNT(*) AS 'NumberOfItems'
-	FROM `cartitem`
-	WHERE 		`cartitem`.`cartId` = paramCartId;
-END //
-DELIMITER ;
-
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_cart_LoadByCustomerId`
-(
-	 IN paramCustomerId INT
-)
-BEGIN
-	SELECT DISTINCT
-		`cart`.`Id` AS `Id`,
-		`cart`.`CustomerId` AS `CustomerId`,
-		`cart`.`CartStatusTypeId` AS `CartStatusTypeId`,
-		`cart`.`CreateDate` AS `CreateDate`,
-		`cart`.`CheckoutDate` AS `CheckoutDate`
-	FROM `cart`
-	WHERE 		`cart`.`CustomerId` = paramCustomerId
-	AND `cart`.`CheckoutDate` IS NULL;  -- cart has not been checked out yet
-END //
-DELIMITER ;
-
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_LoadOnlineCart`
-(
-	 IN paramCartId INT
-)
-BEGIN
-	SELECT
-		`item`.`Name` AS `ItemName`,
-		`item`.`Description` AS `ItemDescription`,
-		`item`.`ImgUrl` AS `ImgUrl`,
-		`item`.`Price` AS `Price`,
-		(SELECT `itemstatustype`.`Name` FROM `itemstatustype` WHERE `itemstatustype`.`Id` = `item`.`ItemStatusTypeId`) AS `ItemStatusType`,
-		(SELECT CONCAT(`customer`.`FirstName`, " ", `customer`.`LastName`) FROM `customer` WHERE `customer`.`Id` = `cart`.`CustomerId`) AS `CustomerName`,
-		`cartitem`.`Quantity` AS `Quantity`,
-		`cartitem`.`ItemStartDate` AS `ItemStartDate`,
-		`cartitem`.`ItemEndDate` AS `ItemEndDate`,
-		(SELECT `itemtype`.`name` FROM `itemtype` WHERE `itemtype`.`Id` = `item`.`ItemTypeId`) AS `ItemType`,
-		`cartitem`.`Id` AS `CartItemId`
-	FROM `cartitem`
-	JOIN `cart` ON `cart`.`id` = `cartitem`.cartId
-	JOIN `item` ON `item`.`Id` = `cartitem`.`ItemId`
-	WHERE 		`cartitem`.`cartId` = paramCartId;
-END //
-DELIMITER ;
-
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_customer_Lookup`
-(
-	IN paramEmail VARCHAR(255)
-)
-BEGIN
-  SELECT
-	  `customer`.`Id` AS `Id`,
-		`customer`.`FirstName` AS `FirstName`,
-		`customer`.`LastName` AS `LastName`,
-		`customer`.`Email` AS `Email`,
-		`customer`.`Password` AS `Password`,
-		`customer`.`CreateDate` AS `CreateDate`
-	FROM `customer`
-	WHERE 		`customer`.`Email` = paramEmail;
-END //
-DELIMITER ;
-
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_eventcomment_LoadByEventId`
-(
-	 IN paramEventId INT
-)
-BEGIN
-	SELECT
-		`eventcomment`.`Id` AS `Id`,
-		`eventcomment`.`Comment` AS `Comment`,
-		`eventcomment`.`CustomerId` AS `CustomerId`,
-		`eventcomment`.`EventCommentStatusTypeId` AS `EventCommentStatusTypeId`,
-		`eventcomment`.`EventId` AS `EventId`,
-		`eventcomment`.`CreateDate` AS `CreateDate`,
-		`eventcomment`.`EditDate` AS `EditDate`
-	FROM `eventcomment`
-	WHERE 		`eventcomment`.`EventId` = paramEventId;
-END //
-DELIMITER ;
+DROP TABLE IF EXISTS `applicationtemplate`.`portfoliocategory`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfoliocategory_Load`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfoliocategory_LoadAll`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfoliocategory_Add`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfoliocategory_Update`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfoliocategory_Delete`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfoliocategory_Search`;
 
 
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_imagecomment_LoadByImageId`
-(
-	 IN paramImageId INT
-)
-BEGIN
-	SELECT
-		`imagecomment`.`Id` AS `Id`,
-		`imagecomment`.`Comment` AS `Comment`,
-		`imagecomment`.`CustomerId` AS `CustomerId`,
-		`imagecomment`.`ImageCommentStatusTypeId` AS `ImageCommentStatusTypeId`,
-		`imagecomment`.`ImageId` AS `ImageId`,
-		`imagecomment`.`CreateDate` AS `CreateDate`,
-		`imagecomment`.`EditDate` AS `EditDate`
-	FROM `imagecomment`
-	WHERE 		`imagecomment`.`ImageId` = paramImageId;
-END //
-DELIMITER ;
+-- ------------------------------------------------------------
+-- Create table
+-- ------------------------------------------------------------
 
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_securityuser_Lookup`
-(
-	IN paramUsername VARCHAR(255)
-)
-BEGIN
-  SELECT
-			`securityuser`.`Id` AS `Id`,
-		`securityuser`.`Username` AS `Username`,
-		`securityuser`.`Password` AS `Password`,
-		`securityuser`.`Email` AS `Email`,
-		`securityuser`.`RoleId` AS `RoleId`,
-		`securityuser`.`CreateDate` AS `CreateDate`
-	FROM `securityuser`
-	WHERE 		`securityuser`.`Username` = paramUsername;
-END //
-DELIMITER ;
 
-use applicationtemplate;
+
+CREATE TABLE `applicationtemplate`.`portfoliocategory` (
+Id INT AUTO_INCREMENT,
+Name VARCHAR(255),
+Description VARCHAR(1025),
+CONSTRAINT pk_portfoliocategory_Id PRIMARY KEY (Id)
+);
+
+
+-- ------------------------------------------------------------
+-- Create default SCRUD sprocs for this table
+-- ------------------------------------------------------------
+
 
 DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_image_LoadFeaturedImages`
-()
-BEGIN
-	SELECT
-		`image`.`Id` AS `Id`,
-		`image`.`Name` AS `Name`,
-		`image`.`Description` AS `Description`,
-		`image`.`ImgUrl` AS `ImgUrl`,
-		`image`.`EventId` AS `EventId`,
-		`image`.`Views` AS `Views`,
-		`image`.`IsFeaturedImage` AS `IsFeaturedImage`
-	FROM `image`
-	WHERE `image`.`IsFeaturedImage` = 1;
-END //
-DELIMITER ;
-
-use applicationtemplate;
-DELIMITER //
-CREATE PROCEDURE `applicationtemplate`.`usp_image_LoadByEventId`
+CREATE PROCEDURE `applicationtemplate`.`usp_portfoliocategory_Load`
 (
 	 IN paramId INT
 )
 BEGIN
 	SELECT
-		`image`.`Id` AS `Id`,
-		`image`.`Name` AS `Name`,
-		`image`.`Description` AS `Description`,
-		`image`.`ImgUrl` AS `ImgUrl`,
-		`image`.`EventId` AS `EventId`,
-		`image`.`Views` AS `Views`,
-		`image`.`IsFeaturedImage` AS `IsFeaturedImage`
-	FROM `image`
-	WHERE 		`image`.`EventId` = paramId;
+		`portfoliocategory`.`Id` AS `Id`,
+		`portfoliocategory`.`Name` AS `Name`,
+		`portfoliocategory`.`Description` AS `Description`
+	FROM `portfoliocategory`
+	WHERE 		`portfoliocategory`.`Id` = paramId;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfoliocategory_LoadAll`
+()
+BEGIN
+	SELECT
+		`portfoliocategory`.`Id` AS `Id`,
+		`portfoliocategory`.`Name` AS `Name`,
+		`portfoliocategory`.`Description` AS `Description`
+	FROM `portfoliocategory`;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfoliocategory_Add`
+(
+	 IN paramName VARCHAR(255),
+	 IN paramDescription VARCHAR(1025)
+)
+BEGIN
+	INSERT INTO `portfoliocategory` (Name,Description)
+	VALUES (paramName, paramDescription);
+	-- Return last inserted ID as result
+	SELECT LAST_INSERT_ID() as id;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfoliocategory_Update`
+(
+	IN paramId INT,
+	IN paramName VARCHAR(255),
+	IN paramDescription VARCHAR(1025)
+)
+BEGIN
+	UPDATE `portfoliocategory`
+	SET Name = paramName
+		,Description = paramDescription
+	WHERE		`portfoliocategory`.`Id` = paramId;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfoliocategory_Delete`
+(
+	IN paramId INT
+)
+BEGIN
+	DELETE FROM `portfoliocategory`
+	WHERE		`portfoliocategory`.`Id` = paramId;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfoliocategory_Search`
+(
+	IN paramId INT,
+	IN paramName VARCHAR(255),
+	IN paramDescription VARCHAR(1025)
+)
+BEGIN
+	SELECT
+		`portfoliocategory`.`Id` AS `Id`,
+		`portfoliocategory`.`Name` AS `Name`,
+		`portfoliocategory`.`Description` AS `Description`
+	FROM `portfoliocategory`
+	WHERE
+		COALESCE(portfoliocategory.`Id`,0) = COALESCE(paramId,portfoliocategory.`Id`,0)
+		AND COALESCE(portfoliocategory.`Name`,'') = COALESCE(paramName,portfoliocategory.`Name`,'')
+		AND COALESCE(portfoliocategory.`Description`,'') = COALESCE(paramDescription,portfoliocategory.`Description`,'');
+END //
+DELIMITER ;
+
+
+/*
+Author:			This code was generated by DALGen version 1.1.0.0 available at https://github.com/H0r53/DALGen
+Date:			1/4/2018
+Description:	Creates the portfolioitem table and respective stored procedures
+
+*/
+
+
+USE applicationtemplate;
+
+
+
+-- ------------------------------------------------------------
+-- Drop existing objects
+-- ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `applicationtemplate`.`portfolioitem`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfolioitem_Load`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfolioitem_LoadAll`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfolioitem_Add`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfolioitem_Update`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfolioitem_Delete`;
+DROP PROCEDURE IF EXISTS `applicationtemplate`.`usp_portfolioitem_Search`;
+
+
+-- ------------------------------------------------------------
+-- Create table
+-- ------------------------------------------------------------
+
+
+
+CREATE TABLE `applicationtemplate`.`portfolioitem` (
+Id INT AUTO_INCREMENT,
+Name VARCHAR(255),
+Description VARCHAR(1025),
+ProjectUrl VARCHAR(512),
+ImageUrl VARCHAR(1025),
+PortfolioCategoryId INT,
+CreateDate DATETIME,
+CONSTRAINT pk_portfolioitem_Id PRIMARY KEY (Id),
+CONSTRAINT fk_portfolioitem_CategoryId_portfoliocategory_Id FOREIGN KEY (PortfolioCategoryId) REFERENCES portfoliocategory (Id)
+);
+
+
+-- ------------------------------------------------------------
+-- Create default SCRUD sprocs for this table
+-- ------------------------------------------------------------
+
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfolioitem_Load`
+(
+	 IN paramId INT
+)
+BEGIN
+	SELECT
+		`portfolioitem`.`Id` AS `Id`,
+		`portfolioitem`.`Name` AS `Name`,
+		`portfolioitem`.`Description` AS `Description`,
+		`portfolioitem`.`ProjectUrl` AS `ProjectUrl`,
+		`portfolioitem`.`ImageUrl` AS `ImageUrl`,
+		`portfolioitem`.`PortfolioCategoryId` AS `PortfolioCategoryId`,
+		`portfolioitem`.`CreateDate` AS `CreateDate`
+	FROM `portfolioitem`
+	WHERE 		`portfolioitem`.`Id` = paramId;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfolioitem_LoadAll`
+()
+BEGIN
+	SELECT
+		`portfolioitem`.`Id` AS `Id`,
+		`portfolioitem`.`Name` AS `Name`,
+		`portfolioitem`.`Description` AS `Description`,
+		`portfolioitem`.`ProjectUrl` AS `ProjectUrl`,
+		`portfolioitem`.`ImageUrl` AS `ImageUrl`,
+		`portfolioitem`.`PortfolioCategoryId` AS `PortfolioCategoryId`,
+		`portfolioitem`.`CreateDate` AS `CreateDate`
+	FROM `portfolioitem`;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfolioitem_Add`
+(
+	 IN paramName VARCHAR(255),
+	 IN paramDescription VARCHAR(1025),
+	 IN paramProjectUrl VARCHAR(512),
+	 IN paramImageUrl VARCHAR(1025),
+	 IN paramPortfolioCategoryId INT,
+	 IN paramCreateDate DATETIME
+)
+BEGIN
+	INSERT INTO `portfolioitem` (Name,Description,ProjectUrl,ImageUrl,PortfolioCategoryId,CreateDate)
+	VALUES (paramName, paramDescription, paramProjectUrl, paramImageUrl, paramPortfolioCategoryId, paramCreateDate);
+	-- Return last inserted ID as result
+	SELECT LAST_INSERT_ID() as id;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfolioitem_Update`
+(
+	IN paramId INT,
+	IN paramName VARCHAR(255),
+	IN paramDescription VARCHAR(1025),
+	IN paramProjectUrl VARCHAR(512),
+	IN paramImageUrl VARCHAR(1025),
+	IN paramPortfolioCategoryId INT,
+	IN paramCreateDate DATETIME
+)
+BEGIN
+	UPDATE `portfolioitem`
+	SET Name = paramName
+		,Description = paramDescription
+		,ProjectUrl = paramProjectUrl
+		,ImageUrl = paramImageUrl
+		,PortfolioCategoryId = paramPortfolioCategoryId
+		,CreateDate = paramCreateDate
+	WHERE		`portfolioitem`.`Id` = paramId;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfolioitem_Delete`
+(
+	IN paramId INT
+)
+BEGIN
+	DELETE FROM `portfolioitem`
+	WHERE		`portfolioitem`.`Id` = paramId;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfolioitem_Search`
+(
+	IN paramId INT,
+	IN paramName VARCHAR(255),
+	IN paramDescription VARCHAR(1025),
+	IN paramProjectUrl VARCHAR(512),
+	IN paramImageUrl VARCHAR(1025),
+	IN paramPortfolioCategoryId INT,
+	IN paramCreateDate DATETIME
+)
+BEGIN
+	SELECT
+		`portfolioitem`.`Id` AS `Id`,
+		`portfolioitem`.`Name` AS `Name`,
+		`portfolioitem`.`Description` AS `Description`,
+		`portfolioitem`.`ProjectUrl` AS `ProjectUrl`,
+		`portfolioitem`.`ImageUrl` AS `ImageUrl`,
+		`portfolioitem`.`PortfolioCategoryId` AS `PortfolioCategoryId`,
+		`portfolioitem`.`CreateDate` AS `CreateDate`
+	FROM `portfolioitem`
+	WHERE
+		COALESCE(portfolioitem.`Id`,0) = COALESCE(paramId,portfolioitem.`Id`,0)
+		AND COALESCE(portfolioitem.`Name`,'') = COALESCE(paramName,portfolioitem.`Name`,'')
+		AND COALESCE(portfolioitem.`Description`,'') = COALESCE(paramDescription,portfolioitem.`Description`,'')
+		AND COALESCE(portfolioitem.`ProjectUrl`,'') = COALESCE(paramProjectUrl,portfolioitem.`ProjectUrl`,'')
+		AND COALESCE(portfolioitem.`ImageUrl`,'') = COALESCE(paramImageUrl,portfolioitem.`ImageUrl`,'')
+		AND COALESCE(portfolioitem.`PortfolioCategoryId`,'') = COALESCE(paramPortfolioCategoryId,portfolioitem.`PortfolioCategoryId`,'')
+		AND COALESCE(CAST(portfolioitem.`CreateDate` AS DATE), CAST(NOW() AS DATE)) = COALESCE(CAST(paramCreateDate AS DATE),CAST(portfolioitem.`CreateDate` AS DATE), CAST(NOW() AS DATE));
+END //
+DELIMITER ;
+
+
+use applicationtemplate;
+INSERT INTO `orderstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Success', 'Order was placed successfully.');
+INSERT INTO `orderstatustype` (`Id`, `Name`, `Description`) VALUES ('2', 'Failed', 'Order was not placed successfully.');
+
+use applicationtemplate;
+INSERT INTO `portfoliocategory` (`Id`, `Name`, `Description`) VALUES ('1', 'PHP/MySQL Application', 'PHP/MySQL Application.');
+
 use applicationtemplate;
 DELIMITER //
 CREATE PROCEDURE `applicationtemplate`.`usp_order_LoadByCustomerId`
@@ -3904,39 +4208,63 @@ END //
 DELIMITER ;
 
 use applicationtemplate;
-INSERT INTO `blogcategory` (`Id`, `Name`, `Description`) VALUES (1, 'Bootstrap 4', 'New Bootstrap framework');
+
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_portfolioitem_LoadByPortfolioCategoryId`
+(
+	 IN paramPortfolioCategoryId INT
+)
+BEGIN
+	SELECT
+		`portfolioitem`.`Id` AS `Id`,
+		`portfolioitem`.`Name` AS `Name`,
+		`portfolioitem`.`Description` AS `Description`,
+		`portfolioitem`.`ProjectUrl` AS `ProjectUrl`,
+		`portfolioitem`.`ImageUrl` AS `ImageUrl`,
+		`portfolioitem`.`PortfolioCategoryId` AS `PortfolioCategoryId`,
+		`portfolioitem`.`CreateDate` AS `CreateDate`
+	FROM `portfolioitem`
+	WHERE 		`portfolioitem`.`PortfolioCategoryId` = paramPortfolioCategoryId;
+END //
+DELIMITER ;
 
 use applicationtemplate;
-INSERT INTO `blogcommentstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Active', 'Comment will appear on blog post.');
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_image_LoadByEventId`
+(
+	 IN paramId INT
+)
+BEGIN
+	SELECT
+		`image`.`Id` AS `Id`,
+		`image`.`Name` AS `Name`,
+		`image`.`Description` AS `Description`,
+		`image`.`ImgUrl` AS `ImgUrl`,
+		`image`.`EventId` AS `EventId`,
+		`image`.`Views` AS `Views`,
+		`image`.`IsFeaturedImage` AS `IsFeaturedImage`
+	FROM `image`
+	WHERE 		`image`.`EventId` = paramId;
+END //
+DELIMITER ;
 
 use applicationtemplate;
-
-INSERT INTO `cartstatustype` (`Id`, `Name`, `Description`) VALUES (1, 'Active Cart', 'Cart has not been checkout and is recognized as active. We will not delete any active carts.');
-INSERT INTO `cartstatustype` (`Id`, `Name`, `Description`) VALUES (2, 'Inactive Cart', 'Cart has been checked out or abandoned.');
-
-use applicationtemplate;
-INSERT INTO `eventcommentstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Active', 'Comment will appear on event page.');
-
-use applicationtemplate;
-INSERT INTO `eventtype` (`Id`, `Name`, `Description`) VALUES ('1', 'General', 'General Event.');
-
-use applicationtemplate;
-INSERT INTO `imagecommentstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Active', 'Comment will appear on image post.');
-
-use applicationtemplate;
-INSERT INTO `itemtype` (`Id`, `Name`, `Description`) VALUES ('1', 'General', 'General Item Category');
-INSERT INTO `itemtype` (`Id`, `Name`, `Description`) VALUES ('2', 'Subscriptions', 'Subscriptions with effective start end dates');
-INSERT INTO `itemtype` (`Id`, `Name`, `Description`) VALUES ('3', 'Tickets', 'Tickets with effective start end dates');
-
-use applicationtemplate;
-
-INSERT INTO `itemstatustype` (`Id`, `Name`, `Description`) VALUES (1, 'Active Item', 'Item will appear on site');
-INSERT INTO `itemstatustype` (`Id`, `Name`, `Description`) VALUES (2, 'Inactive Item', 'Item will not appear on site');
-INSERT INTO `itemstatustype` (`Id`, `Name`, `Description`) VALUES (3, 'On Sale Item', 'Item is on sale');
-
-use applicationtemplate;
-INSERT INTO `role` (`Id`, `Name`, `Description`) VALUES ('1', 'Administrator', 'Administrator Role.');
-
-use applicationtemplate;
-INSERT INTO `orderstatustype` (`Id`, `Name`, `Description`) VALUES ('1', 'Success', 'Order was placed successfully.');
-INSERT INTO `orderstatustype` (`Id`, `Name`, `Description`) VALUES ('2', 'Failed', 'Order was not placed successfully.');
+DELIMITER //
+CREATE PROCEDURE `applicationtemplate`.`usp_cartitem_LoadByCartId`
+(
+	 IN paramCartId INT
+)
+BEGIN
+	SELECT
+		`cartitem`.`Id` AS `Id`,
+		`cartitem`.`CartId` AS `CartId`,
+		`cartitem`.`ItemId` AS `ItemId`,
+		`cartitem`.`AddDate` AS `AddDate`,
+		`cartitem`.`Quantity` AS `Quantity`,
+		`cartitem`.`ItemStartDate` AS `ItemStartDate`,
+		`cartitem`.`ItemEndDate` AS `ItemEndDate`,
+		`cartitem`.`ItemTypeId` AS `ItemTypeId`
+	FROM `cartitem`
+	WHERE 		`cartitem`.`CartId` = paramCartId;
+END //
+DELIMITER ;

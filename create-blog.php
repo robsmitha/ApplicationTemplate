@@ -17,16 +17,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     isset($_POST["title"]) && $_POST["title"] != "" ? $title = $_POST["title"] : $returnVal = false;
     isset($_POST["description"]) && $_POST["description"] != "" ? $description = $_POST["description"] : $returnVal = false;
     isset($_POST["imgurl"]) && $_POST["imgurl"] != "" ? $imgurl = $_POST["imgurl"] : $returnVal = false;
-    isset($_POST["blogcategory"]) && $_POST["blogcategory"] > 0 ? $blogcategory = $_POST["blogcategory"] : $returnVal = false;
+    isset($_POST["blogcategory"]) && $_POST["blogcategory"] > 0 ? $blogcategoryid = $_POST["blogcategory"] : $returnVal = false;
 
     if($returnVal){
-        $currentDate = date('Y-m-d H:i:s');
-        $blog = new blog(0,$title,$description,$imgurl,$blogcategory,SessionManager::getSecurityUserId(),$currentDate,null);
-        $blog->save();
+        if(isset($_POST["btnEdit"]) && is_numeric($_POST["btnEdit"])) {
+            $blog = new Blog($_POST["btnEdit"]);
+            $blog->setTitle($title);
+            $blog->setDescription($description);
+            $blog->setImgUrl($imgurl);
+            $blog->setBlogCategoryId($blogcategoryid);
+        }
+        else{
+            $currentDate = date('Y-m-d H:i:s');
+            $blog = new blog(0,$title,$description,$imgurl,$blogcategoryid,SessionManager::getSecurityUserId(),$currentDate,null);
+        }
+
+        $blog->save();  //call save to insert/update the db
         header("location: blog-post.php?id=".$blog->getId());
     }
     else{
         $validationMsg = "Please review your entries!";
+    }
+}
+if($_SERVER["REQUEST_METHOD"] == "GET"){
+    if(isset($_GET["id"])
+        && is_numeric($_GET["id"])
+        && $_GET["id"] > 0
+        && isset($_GET["cmd"])
+        && $_GET["cmd"] == "edit"){     //validate query string
+        $blog = new Blog($_GET["id"]);
+        if($blog != null){
+            //success, now use this obj to fill in the values for the form input fields in html below
+        }
+        else{   //null customer obj
+            header("location: index.php");
+        }
     }
 }
 ?>
@@ -56,23 +81,38 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <form method="post">
                         <div class="form-group">
                             <label for="username">Title</label>
-                            <input class="form-control" id="title" name="title" type="text" placeholder="Title">
+                            <input class="form-control" id="title" name="title" type="text" placeholder="Title" value="<?php if(isset($blog)) echo $blog->getTitle() ?>">
                         </div>
                         <div class="form-group">
                             <label for="imgurl">Image Url</label>
-                            <input class="form-control" id="imgurl" name="imgurl" type="text" placeholder="Image Url">
+                            <input class="form-control" id="imgurl" name="imgurl" type="text" placeholder="Image Url" value="<?php if(isset($blog)) echo $blog->getImgUrl() ?>">
                         </div>
                         <div class="form-group">
                             <label for="blogcategory">Category</label>
                             <select class="form-control" name="blogcategory">
-                                <option value="0">--Select Category--</option>
                                 <?php
+                                if(isset($blog)) {
+                                    $blogCategory = new Blogcategory($blog->getBlogCategoryId());
+                                    ?>
+                                    <option value="<?php echo $blogCategory->getId() ?>"><?php echo $blogCategory->getName() ?></option>
+                                    <?php
+                                }
+                                else {
+                                    ?>
+                                    <option value="0">--Select Category--</option>
+                                    <?php
+                                }
                                 $blogCategoryList = Blogcategory::loadall();
                                 if(!empty($blogCategoryList)){
                                     foreach ($blogCategoryList as $bc) {
-                                        ?>
-                                        <option value="<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></option>
-                                        <?php
+                                        if(isset($blog) && $bc->getId() == $blog->getBlogCategoryId()){
+                                            //skipp
+                                        }
+                                        else{
+                                            ?>
+                                            <option value="<?php echo $bc->getId() ?>"><?php echo $bc->getName() ?></option>
+                                            <?php
+                                        }
                                     }
                                 }
                                 ?>
@@ -80,12 +120,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="5" type="text" placeholder="Type blog content here"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="5" type="text" placeholder="Type blog content here"><?php if(isset($blog)) echo $blog->getDescription() ?></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Post Blog</button>
+                        <?php
+                        if(isset($blog)){
+                            ?>
+                            <button type="submit" name="btnEdit" id="btnEdit" class="btn btn-primary btn-block" value="<?php echo $blog->getId() ?>">Edit Blog</button>
+                        <?php
+                        }
+                        else{
+                            ?>
+                            <button type="submit" class="btn btn-primary btn-block">Post Blog</button>
+                        <?php
+                        }
+                        ?>
                     </form>
                     <div class="text-center">
-                        <a class="d-block small mt-3" href="shop-home.php">Cancel</a>
+                        <a class="d-block small mt-3" href="admin-home.php">Cancel</a>
                     </div>
                 </div>
             </div>

@@ -226,7 +226,7 @@ class Portfolioitem {
 			return $arr;
 		}
 		else {
-			die("The query yielded zero results.No rows found.");
+			//die("The query yielded zero results.No rows found.");
 		}
 	}
 
@@ -265,7 +265,7 @@ class Portfolioitem {
 			return $arr;
 		}
 		else {
-			die("The query yielded zero results.No rows found.");
+			//die("The query yielded zero results.No rows found.");
 		}
 	}
     public static function loadbyportfoliocategoryid($paramPortfolioCategoryId) {
@@ -286,7 +286,7 @@ class Portfolioitem {
             return $arr;
         }
         else {
-            die("The query yielded zero results.No rows found.");
+            //die("The query yielded zero results.No rows found.");
         }
     }
 }

@@ -40,7 +40,7 @@ $customer = new Customer($order->getCustomerId());
 <!-- Page Content -->
 <div class="container">
 
-    <h1 class="mt-4 mb-3 d-none d-sm-block">View Order ID: <?php echo $order->getId() ?></h1>
+    <h1 class="mt-4 mb-3">View Order ID: <?php echo $order->getId() ?></h1>
 
 
     <ol class="breadcrumb">
@@ -86,7 +86,7 @@ $customer = new Customer($order->getCustomerId());
                         </div>
                     </div>
                     <br>
-                    <div class="row">
+                    <div class="row d-none">
                         <div class="col-md-4">
                             <b>Stripe Customer: </b><br>
                             <?php echo $order->getStripeCustomer() ?>

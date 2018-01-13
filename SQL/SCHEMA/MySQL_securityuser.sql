@@ -37,7 +37,7 @@ Email VARCHAR(255),
 RoleId INT,
 CreateDate DATETIME,
 CONSTRAINT pk_securityuser_Id PRIMARY KEY (Id),
-CONSTRAINT fk_securityuser_RoleId_Role_Id FOREIGN KEY (RoleId) REFERENCES Role (Id)
+CONSTRAINT fk_securityuser_RoleId_Role_Id FOREIGN KEY (RoleId) REFERENCES role (Id)
 );
 
 

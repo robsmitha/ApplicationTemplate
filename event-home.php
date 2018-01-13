@@ -19,6 +19,7 @@ $securityuserid = SessionManager::getSecurityUserId();
     <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3 d-none d-sm-block">Events
         <small>Cory's Latest Shows!</small>
+        <!--
         <?php
         if($securityuserid > 0){
             ?>
@@ -26,6 +27,7 @@ $securityuserid = SessionManager::getSecurityUserId();
             <?php
         }
         ?>
+        -->
     </h1>
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -61,6 +63,7 @@ $securityuserid = SessionManager::getSecurityUserId();
                             <b><?php echo $event->getLocation() ?></b>
                             <p><?php echo nl2br(substr($event->getDescription(), 0, 300)); ?></p>
                             <div class="btn-group">
+                                <!--
                                 <?php
                                 if($securityuserid > 0){
                                     ?>
@@ -68,6 +71,7 @@ $securityuserid = SessionManager::getSecurityUserId();
                                     <?php
                                 }
                                 ?>
+                                -->
                                 <a class="btn btn-primary" href="event.php?id=<?php echo $event->getId() ?>">View Event
                                     <span class="glyphicon glyphicon-chevron-right"></span>
                                 </a>

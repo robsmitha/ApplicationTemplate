@@ -7,6 +7,9 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
+                    <a class="nav-link" href="index.php">Home</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="about.php">About</a>
                 </li>
                 <li class="nav-item">
@@ -36,7 +39,6 @@
                         <a class="dropdown-item" href="portfolio-2-col.php">2 Column Portfolio</a>
                         <a class="dropdown-item" href="portfolio-3-col.php">3 Column Portfolio</a>
                         <a class="dropdown-item" href="portfolio-4-col.php">4 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-item.php">Single Portfolio Item</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -55,18 +57,8 @@
             <ul class="navbar-nav ml-auto">
                 <?php if(SessionManager::getSecurityUserId() > 0 ) {
                     ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Administration
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownAdmin">
-                            <a class="dropdown-item" href="admin-home.php">Admin Home</a>
-                            <a class="dropdown-item" href="create-blog.php">Create Blog</a>
-                            <a class="dropdown-item" href="create-item.php">Create Item</a>
-                            <a class="dropdown-item" href="create-user.php">Create User</a>
-                            <a class="dropdown-item" href="create-image.php">Create Image</a>
-                            <a class="dropdown-item" href="create-event.php">Create Event</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-home.php">Administration</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Logout</a>

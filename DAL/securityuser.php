@@ -214,7 +214,7 @@ class Securityuser {
             return $arr;
         }
         else {
-            die("The query yielded zero results.No rows found.");
+            //die("The query yielded zero results.No rows found.");
         }
     }
 
@@ -252,7 +252,7 @@ class Securityuser {
             return $arr;
         }
         else {
-            die("The query yielded zero results.No rows found.");
+            //die("The query yielded zero results.No rows found.");
         }
     }
     public static function lookup($paramUsername) {

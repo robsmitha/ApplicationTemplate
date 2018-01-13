@@ -29,35 +29,11 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 
     <div class="row">
 
-        <div class="col-lg-3">
 
-            <h1 class="my-4">Shop Name</h1>
-            <div class="list-group">
-                <?php
-                $itemTypeList = Itemtype::loadall();
-                if(!empty($itemTypeList)){
-                    foreach ($itemTypeList as $itemtype){
-                        if(isset($itemtypeid) && $itemtype->getId() == $itemtypeid){
-                            ?>
-                            <a href="shop-home.php?id=<?php echo $itemtype->getId() ?>" class="list-group-item active"><?php echo $itemtype->getName() ?></a>
-                            <?php
-                        }
-                        else{
-                            ?>
-                            <a href="shop-home.php?id=<?php echo $itemtype->getId() ?>" class="list-group-item"><?php echo $itemtype->getName() ?></a>
-                            <?php
-                        }
-                    }
-                }
-                ?>
-            </div>
 
-        </div>
-        <!-- /.col-lg-3 -->
+        <div class="col-lg-8">
 
-        <div class="col-lg-9">
-
-            <div id="carouselExampleIndicators" class="carousel slide mt-4" data-ride="carousel">
+            <div id="carouselExampleIndicators" class="carousel slide mt-4 d-none" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -117,11 +93,12 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                                             <button class="btn btn-primary" onclick="addToCart(<?php echo $item->getId() ?>,<?php echo $item->getItemTypeId() ?>,<?php echo $item->getItemStatusTypeId() ?>);return false;"><i class="icon-plus"></i> Add</button>
                                             <?php
                                         }
-                                        if($securityuserId > 0){
+                                        /*
+                                        if($securityuserId > 0){ */
                                             ?>
-                                            <a href="create-item.php?id=<?php echo $item->getId(); ?>&cmd=edit" class="btn btn-danger">Edit</a>
+                                           <!-- <a href="create-item.php?id=<?php echo $item->getId(); ?>&cmd=edit" class="btn btn-danger">Edit</a> -->
                                             <?php
-                                        }
+                                        //}
                                         ?>
                                     </div>
                                 </div>
@@ -130,7 +107,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                                 </div>
                             </div>
                         </div>
-                <?php
+                        <?php
                     }
                 }
                 ?>
@@ -138,7 +115,51 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
             <!-- /.row -->
 
         </div>
-        <!-- /.col-lg-9 -->
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+
+
+            <!-- Categories Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Categories</h5>
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <?php
+                        $itemTypeList = Itemtype::loadall();
+                        if(!empty($itemTypeList)){
+                            foreach ($itemTypeList as $itemtype){
+                                ?>
+                                <div class="col-lg-6">
+                                    <a href="shop-home.php?id=<?php echo $itemtype->getId() ?>"><?php echo $itemtype->getName() ?></a>
+                                    <?php
+                                    if($securityuserId > 0){
+                                        ?>
+                                        <a href="create-type.php?cmd=edit&type=itemtype&id=<?php echo $itemtype->getId() ?>" class="text-danger"><i class="icon-pencil"></i></a>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Side Widget</h5>
+                <div class="card-body">
+                    You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /.col-lg-4 -->
 
     </div>
     <!-- /.row -->

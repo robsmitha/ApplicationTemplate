@@ -5,141 +5,148 @@
 
 <?php include "head.php" ?>
 
-  <body>
+<body>
 
-    <!-- Navigation -->
-    <?php include "navbar.php" ?>
+<!-- Navigation -->
+<?php include "navbar.php" ?>
 
-    <header>
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+<header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
         <div class="carousel-inner" role="listbox">
-          <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('img/slide-1.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>First Slide</h3>
-              <p>This is a description for the first slide.</p>
+            <!-- Slide One - Set the background image for this slide in the line below -->
+            <div class="carousel-item active" style="background-image: url('img/slide-1.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>WEB</h3>
+                    <p>Professional Web Development</p>
+                </div>
             </div>
-          </div>
-          <!-- Slide Two - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('img/slide-2.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Second Slide</h3>
-              <p>This is a description for the second slide.</p>
+            <!-- Slide Two - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('img/slide-2.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>SEO</h3>
+                    <p>We Help You Get Found On Google</p>
+                </div>
             </div>
-          </div>
-          <!-- Slide Three - Set the background image for this slide in the line below -->
-          <div class="carousel-item" style="background-image: url('img/slide-3.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>Third Slide</h3>
-              <p>This is a description for the third slide.</p>
+            <!-- Slide Three - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('img/slide-3.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>SHOP</h3>
+                    <p>24/7 Ecommerce Support</p>
+                </div>
             </div>
-          </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
         </a>
         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
         </a>
-      </div>
-    </header>
+    </div>
+</header>
 
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
-      <h1 class="my-4">Welcome to Application Template</h1>
+    <h1 class="my-4">Web Media Concepts Demo Site</h1>
 
-      <!-- Marketing Icons Section -->
-      <div class="row">
+    <!-- Marketing Icons Section -->
+    <div class="row">
         <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header"><i class="icon-speedometer"></i> Fast Setup</h4>
-            <div class="card-body">
-              <p class="card-text">Download the latest source from GitHub. Run project out of software like phpMyAdmin and in your MySQL server run the following command to build out the database schema.</p>
-                <code class="small">
-                    source /path/SQL/ApplicationTemplate.sql
-                </code>
+            <div class="card h-100">
+                <h4 class="card-header"><i class="icon-screen-desktop"></i> Professional Web Development</h4>
+                <div class="card-body">
+                    <p class="card-text">
+                        A website serves as an online identitiy for a business. Our modern and professional web development standards ensure your website will scale flawlessly across all screen types and sizes.
+                    </p>
+
+                </div>
+                <div class="card-footer">
+                    <a href="portfolio-3-col.php" class="btn btn-primary">See Our Projects</a>
+                </div>
             </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Download on GitHub</a>
-            </div>
-          </div>
         </div>
-          <div class="col-lg-4 mb-4">
-              <div class="card h-100">
-                  <h4 class="card-header"><i class="icon-key"></i> Key Functionality</h4>
-                  <div class="card-body">
-                      <p class="card-text">This template generated DAL files for Searching, Creating, Reading, Updating and Deleting database record. Each included table will have the corresponding generated SCRUD sprocs and DAL class.</p>
-                  </div>
-                  <div class="card-footer">
-                      <a href="#" class="btn btn-primary">View Documentation</a>
-                  </div>
-              </div>
-          </div>
         <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header"><i class="icon-graph"></i> Definitely Scales</h4>
-            <div class="card-body">
-              <p class="card-text">This template was built to scale and has tons of potential! See where we've implemented some of these templates below.</p>
+            <div class="card h-100">
+                <h4 class="card-header"><i class="icon-magnifier"></i> We Help You Get Found On Google</h4>
+                <div class="card-body">
+                    <p class="card-text">The best way to generate online leads for any business is through organized online marketing strategies. We implement effective SEO techniques that attract more online customers.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="services.php" class="btn btn-primary">Learn More</a>
+                </div>
             </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">See Our Projects</a>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100">
+                <h4 class="card-header"><i class="icon-clock"></i> 24/7 Ecommerce Support</h4>
+                <div class="card-body">
+                    <p class="card-text">Let's face it, the business of buying and selling has largely been moved online. Let Us handle the day-to-day website maintenance so you can focus on your next big move.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="shop-home.php" class="btn btn-primary">Shop Demo</a>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <!-- /.row -->
-        <br>
-      <!-- Features Section -->
-      <div class="row">
+    </div>
+    <!-- /.row -->
+    <br>
+    <!-- Features Section -->
+    <div class="row">
         <div class="col-lg-6">
-          <h2>Application Template Features</h2>
-          <p>The Modern Business template by Start Bootstrap includes:</p>
-          <ul>
-            <li>
-              <strong>Bootstrap v4</strong>
-            </li>
-            <li>jQuery</li>
-            <li>Font Awesome</li>
-            <li>Working contact form with validation</li>
-            <li>Unstyled page elements for easy customization</li>
-          </ul>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum ducimus unde.</p>
+            <h2>Demo Website Features</h2>
+            <p>The Web Media Concepts Demo Site includes:</p>
+            <ul>
+                <li><a href="shop-home.php">
+                        <strong>Online Shop</strong></a>
+                </li>
+                <li><a href="blog-home.php">Blog</a></li>
+                <li><a href="gallery.php">Galley</a></li>
+                <li><a href="portfolio-3-col.php">Portfolio</a></li>
+                <li><a href="event-home.php">Events</a></li>
+
+            </ul>
+            <p>
+                We implement the features listed above along with other custom functionality to suite any client needs.
+
+
+
+                The final price depends on the websites needs and total development costs. You can get an idea of our pricing by <a href="pricing.php">clicking here.</a>
+            </p>
         </div>
         <div class="col-lg-6">
-          <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
+            <img class="img-fluid rounded" src="img/750x450.jpg" alt="">
         </div>
-      </div>
-      <!-- /.row -->
+    </div>
+    <!-- /.row -->
 
-      <hr>
+    <hr>
 
-      <!-- Call to Action Section -->
-      <div class="row mb-4">
+    <!-- Call to Action Section -->
+    <div class="row mb-4">
         <div class="col-md-8">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+            <p>Our market specific search engine optimization (SEO) will produce more online leads for your business. Let us build an online presence to attract your perfect customer.</p>
         </div>
         <div class="col-md-4">
-          <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
+            <a class="btn btn-lg btn-secondary btn-block" href="contact.php">Contact Now</a>
         </div>
-      </div>
-
     </div>
-    <!-- /.container -->
 
-    <!-- Footer -->
-    <?php include "footer.php" ?>
+</div>
+<!-- /.container -->
 
-    <!-- Bootstrap core JavaScript -->
-    <?php include "scripts.php" ?>
+<!-- Footer -->
+<?php include "footer.php" ?>
 
-  </body>
+<!-- Bootstrap core JavaScript -->
+<?php include "scripts.php" ?>
+
+</body>
 
 </html>

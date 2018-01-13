@@ -29,7 +29,7 @@ if($cart != null){
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card mt-4">
                 <div class="card-header">
                     My Cart
                 </div>
@@ -57,7 +57,7 @@ if($cart != null){
                                     <td class="text-center">
                                         <img class="d-flex mr-3 mx-auto" style="width: 75px; height: 75px;" src="<?php echo $c->getImgUrl() ?>" alt="<?php echo $c->getItemName() ?>">
                                         <h5><?php echo $c->getItemName() ?></h5>
-                                        <small><?php echo $c->getItemDescription() ?></small>
+                                        <small class="d-none"><?php echo $c->getItemDescription() ?></small>
                                     </td>
                                     <td><?php echo $c->getItemType() ?></td>
                                     <td><?php echo $c->getQuantity() ?></td>

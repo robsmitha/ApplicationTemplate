@@ -4,6 +4,12 @@ $customerId = SessionManager::getCustomerId() == 0 ? null : SessionManager::getC
 $securityuserid = SessionManager::getSecurityUserId() == 0 ? null : SessionManager::getSecurityUserId();
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST["btnDelete"])){
+        if(is_numeric($_POST["btnDelete"])){
+            Event::remove($_POST["btnDelete"]);
+            header("location: event-home.php");
+        }
+    }
     $returnVal = true;
     if(isset($_POST["btnPostComment"])){
         isset($_POST["comment"]) && $_POST["comment"] != "" ? $comment = $_POST["comment"] : $returnVal = false;
@@ -53,9 +59,32 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
 <!-- Page Content -->
 <div class="container">
 
-    <h1 class="mt-4 mb-3 d-none d-sm-block"><?php echo nl2br($event->getName()) ?></h1>
+    <div class="row">
+        <div class="col-md-9">
+            <h1 class="mt-4 mb-3"><?php echo nl2br($event->getName()) ?></h1>
+        </div>
+        <div class="col-md-3">
+            <br>
+            <?php
+            if($securityuserid > 0){
+                ?>
+                <div class="dropdown show mb-2">
+                    <a class="btn btn-dark dropdown-toggle btn-block" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage Event
+                    </a>
 
-
+                    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="create-event.php?id=<?php echo $event->getId(); ?>&cmd=edit">Edit</a>
+                        <form method="post">
+                            <button name="btnDelete" class="dropdown-item" value="<?php echo $event->getId()?>">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+    </div>
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
             <a href="index.php">Home</a>
@@ -69,23 +98,25 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
     <div class="row">
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
-            <div>
-                <h4 class="mb-3">Event Details</h4>
-                <h5><?php echo date_format(date_create($event->getStartDate()), 'F j, Y') ?></h5>
-                <h5>
-                    <small><?php echo date_format(date_create($event->getStartDate()), 'g:i A')." To ".date_format(date_create($event->getEndDate()), 'g:i A') ?></small>
-                </h5>
-                <br>
-                <h5>
-                    <p><?php echo nl2br($event->getLocation()) ?></p>
-                </h5>
-
-                <br>
-                <a class="btn btn-primary btn-block btn-lg" href="<?php echo $event->getTicketLink() ?>">Get Tickets</a>
-                <br>
-                <a class="btn btn-default btn-block btn-lg" href="event-images.php?id=<?php echo $event->getId() ?>">View Images
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                </a>
+            <div class="card">
+                <h4 class="card-header">Event Details</h4>
+                <div class="card-body">
+                    <h5><?php echo date_format(date_create($event->getStartDate()), 'F j, Y') ?></h5>
+                    <h5>
+                        <small><?php echo date_format(date_create($event->getStartDate()), 'g:i A')." To ".date_format(date_create($event->getEndDate()), 'g:i A') ?></small>
+                    </h5>
+                    <br>
+                    <h5>
+                        <p><?php echo nl2br($event->getLocation()) ?></p>
+                    </h5>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-block btn-lg" href="<?php echo $event->getTicketLink() ?>">Get Tickets</a>
+                    <br>
+                    <a class="btn btn-default btn-block btn-lg" href="event-images.php?id=<?php echo $event->getId() ?>">View Images
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
             </div>
         </div>
         <!-- Post Content Column -->
@@ -102,13 +133,6 @@ $eventCommentList = Eventcomment::loadbyeventid($event->getId());
             <p>
                 <?php echo nl2br($event->getDescription()) ?>
             </p>
-            <?php
-            if($securityuserid > 0){
-                ?>
-                <a class="btn btn-outline-light btn-block" href="create-event.php?id=<?php echo $event->getId(); ?>&cmd=edit">Edit Event</a>
-                <?php
-            }
-            ?>
             <br>
             <?php
             if(!empty($eventCommentList)){

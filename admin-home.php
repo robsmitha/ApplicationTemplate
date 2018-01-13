@@ -109,7 +109,63 @@ if(SessionManager::getSecurityUserId() == 0){
             </a>
         </div>
     </div>
-
+    <br>
+    <h4>Types</h4>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <a href="create-type.php?type=eventtype">
+                <div class="tile">
+                    <div class="tile-title">
+                        <h5 class="text-white">Create Event Type</h5>
+                        <p class="lead">Create a new event type.</p>
+                    </div>
+                    <div class="tile-footer">
+                        <i class="icon-arrow-right-circle pull-right fa-2x text-white"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a href="create-type.php?type=itemtype">
+                <div class="tile">
+                    <div class="tile-title">
+                        <h5 class="text-white">Create Item Type</h5>
+                        <p class="lead">Create a new item type.</p>
+                    </div>
+                    <div class="tile-footer">
+                        <i class="icon-arrow-right-circle pull-right fa-2x text-white"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a href="create-type.php?type=portfoliocategory">
+                <div class="tile">
+                    <div class="tile-title">
+                        <h5 class="text-white">Create Portfolio Category</h5>
+                        <p class="lead">Create a new portfolio category.</p>
+                    </div>
+                    <div class="tile-footer">
+                        <i class="icon-arrow-right-circle pull-right fa-2x text-white"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-3">
+            <a href="create-type.php?type=blogcategory">
+                <div class="tile">
+                    <div class="tile-title">
+                        <h5 class="text-white">Create Blog Category</h5>
+                        <p class="lead">Create a new blog category.</p>
+                    </div>
+                    <div class="tile-footer">
+                        <i class="icon-arrow-right-circle pull-right fa-2x text-white"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
 <!-- /.container -->
 
