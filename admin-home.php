@@ -110,6 +110,35 @@ if(SessionManager::getSecurityUserId() == 0){
         </div>
     </div>
     <br>
+    <div class="row">
+        <div class="col-sm-4 mb-2">
+            <a href="manage-subscribers.php">
+                <div class="tile">
+                    <div class="tile-title">
+                        <h3 class="text-white">Manage Subscribers</h3>
+                        <p class="lead">Manage Subscribers who signed up for updates.</p>
+                    </div>
+                    <div class="tile-footer">
+                        <i class="icon-arrow-right-circle pull-right fa-2x text-white"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-4 mb-2">
+            <a href="email-log.php">
+                <div class="tile">
+                    <div class="tile-title">
+                        <h3 class="text-white">Email Log</h3>
+                        <p class="lead">View email log records</p>
+                    </div>
+                    <div class="tile-footer">
+                        <i class="icon-arrow-right-circle pull-right fa-2x text-white"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <br>
     <h4>Types</h4>
     <hr>
     <div class="row">

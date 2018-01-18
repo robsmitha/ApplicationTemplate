@@ -15,7 +15,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     isset($_POST["firstname"]) && $_POST["firstname"] != "" ? $firstname = $_POST["firstname"] : $returnVal = false;
     isset($_POST["lastname"]) && $_POST["lastname"] != "" ? $lastname = $_POST["lastname"] : $returnVal = false;
 
-    //don't check password if customer is making new account
+    //don't check password if customer is only editing their account
     if(!isset($_POST["btnEdit"])){
         isset($_POST["password"]) && $_POST["password"] != "" ? $password = $_POST["password"] : $returnVal = false;
 
@@ -35,13 +35,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             //existing customer editing their profile
             //val of btn edit is the customer id of the existing customer profile
             //we will check this value agaist the session value before doing any updates on the db
-            if($CustomerId == $_POST["btnEdit"])
-            $customer = new Customer($_POST["btnEdit"]);
-            $customer->setFirstName($firstname);
-            $customer->setLastName($lastname);
-            $customer->setEmail($email);
-            $customer->save();
-            header("location:customer-profile.php");
+            if($CustomerId == $_POST["btnEdit"]){
+                $customer = new Customer($_POST["btnEdit"]);
+                $customer->setFirstName($firstname);
+                $customer->setLastName($lastname);
+                $customer->setEmail($email);
+                $customer->save();
+                header("location:customer-profile.php");
+            }
         }
         else {
             //new customer
@@ -63,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     SessionManager::setCustomerId($customer->getId());
                     SessionManager::setFirstName($customer->getFirstName());
                     // Redirect to Dashboard
-                    header("location: index.php");
+                    header("location: customer-profile.php");
                 }
             }
         }
@@ -97,7 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 
 <body class="bg-dark" id="page-top">
 <?php include "navbar.php" ?>
-<div class="container">
+<div class="container content-wrapper">
     <?php if(isset($validationMsg)) { ?>
         <div class="alert alert-danger alert-dismissible fade show mx-auto mt-5" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -110,7 +111,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
             <div class="card mx-auto mt-5">
-                <div class="card-header">Create Account</div>
+                <div class="card-header"><?php isset($customer) ? $title = "Edit" : $title = "Create"; echo $title ?> Account</div>
                 <div class="card-body">
                     <form method="post">
                         <div class="form-group">
@@ -133,6 +134,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                         if(isset($customer)){
                             ?>
                             <button type="submit" name="btnEdit" id="btnEdit" class="btn btn-primary btn-block" value="<?php echo $customer->getId() ?>">Edit Profile</button>
+                            <div class="text-center">
+                                <a class="d-block small mt-3" href="customer-profile.php">Cancel</a>
+                            </div>
                         <?php
                         }
                         else{
@@ -150,13 +154,14 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <div class="text-center">
+                                <a class="d-block small mt-3" href="login.php">Login Page</a>
+                            </div>
                         <?php
                         }
                         ?>
                     </form>
-                    <div class="text-center">
-                        <a class="d-block small mt-3" href="login.php">Login Page</a>
-                    </div>
+
                 </div>
             </div>
         </div>

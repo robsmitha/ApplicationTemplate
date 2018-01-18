@@ -68,7 +68,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <a href="portfolio-3-col.php" class="btn btn-primary">See Our Projects</a>
+                    <a href="portfolio-1-col.php" class="btn btn-primary">See Our Projects</a>
                 </div>
             </div>
         </div>
@@ -110,6 +110,7 @@
                 <li><a href="gallery.php">Galley</a></li>
                 <li><a href="portfolio-3-col.php">Portfolio</a></li>
                 <li><a href="event-home.php">Events</a></li>
+                <li><a href="comming-soon.php">Subscribers</a></li>
 
             </ul>
             <p>

@@ -47,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <form method="post">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Username</label>
-                            <input class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter Username">
+                            <input class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Username">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>

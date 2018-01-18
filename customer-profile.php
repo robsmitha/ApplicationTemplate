@@ -3,7 +3,6 @@
 $CustomerId = SessionManager::getCustomerId();
 if($CustomerId > 0){
     $customer = new Customer($CustomerId);
-    $customerOrdersList = Order::loadbycustomerid($CustomerId);
 }
 else{
     header("location:index.php");
@@ -20,14 +19,11 @@ else{
 <?php include "navbar.php" ?>
 
 <!-- Page Content -->
-<div class="container">
+<div class="container content-wrapper">
 
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Customer Profile
-        <small><?php echo ucfirst($customer->getFirstName())." ".ucfirst($customer->getLastName()); ?></small>
-    </h1>
 
-    <ol class="breadcrumb">
+
+    <ol class="breadcrumb mt-5">
         <li class="breadcrumb-item">
             <a href="index.php">Home</a>
         </li>
@@ -35,7 +31,7 @@ else{
     </ol>
     <div class="card">
         <div class="card-header">
-            Customer Information<a href="create-customer.php?cmd=edit&id=<?php echo $customer->getId() ?>" class="btn btn-dark pull-right">Edit Profile</a>
+            Customer Information<a href="create-customer.php?cmd=edit&id=<?php echo $customer->getId() ?>" class="btn btn-dark pull-right">Edit</a>
         </div>
         <div class="card-body">
             <div class="row">
@@ -64,44 +60,12 @@ else{
                 </div>
             </div>
         </div>
-        <table class="table">
-            <thead class="bg-secondary">
-            <tr>
-                <th>Order ID</th>
-                <th>Order Date</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            $i = 0;
-            if(!empty($customerOrdersList)){
-                foreach ($customerOrdersList as $order){
-                    $i++;
-                    $orderstatus = new Orderstatustype($order->getOrderStatusTypeId());
-                    ?>
-                    <tr>
-                        <td><?php echo $order->getId() ?></td>
-                        <td><?php echo date_format(date_create($order->getOrderDate()), 'g:ia \o\n l jS F Y') ?></td>
-                        <td><?php echo $orderstatus->getName() ?></td>
-                        <td><a href="view-order.php?id=<?php echo $order->getId()  ?>" class="btn btn-primary btn-sm">Details</a></td>
-                    </tr>
-                    <?php
-                }
-            }
-            ?>
-            </tbody>
-        </table>
-        <div class="card-footer">
-            <b>Total Orders: </b><?php echo $i; ?>
-        </div>
     </div>
+    <!-- Footer -->
+    <?php include "footer.php" ?>
 </div>
 <!-- /.container -->
 
-<!-- Footer -->
-<?php include "footer.php" ?>
 
 <!-- Bootstrap core JavaScript -->
 <?php include "scripts.php" ?>

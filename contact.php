@@ -58,9 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">Contact
-        <small>Lets make it happen</small>
-    </h1>
+    <h1 class="mt-4 mb-3">Contact</h1>
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item">

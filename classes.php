@@ -42,6 +42,12 @@ include_once("DAL/eventcommentstatustype.php");
 include_once("DAL/portfoliocategory.php");
 include_once("DAL/portfolioitem.php");
 
+//subscriber
+include_once("DAL/subscriber.php");
+
+//emaillog
+include_once("DAL/emaillog.php");
+include_once("DAL/emailtype.php");
 
 //Utilities
 include_once("Utilities/SessionManager.php");

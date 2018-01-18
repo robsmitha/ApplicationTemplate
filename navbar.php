@@ -30,16 +30,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="shop-home.php">Shop</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Portfolio
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                        <a class="dropdown-item" href="portfolio-1-col.php">1 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-2-col.php">2 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-3-col.php">3 Column Portfolio</a>
-                        <a class="dropdown-item" href="portfolio-4-col.php">4 Column Portfolio</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio-1-col.php">Portfolio</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,6 +43,10 @@
                         <a class="dropdown-item" href="faq.php">FAQ</a>
                         <a class="dropdown-item" href="404.php">404</a>
                         <a class="dropdown-item" href="pricing.php">Pricing Table</a>
+                        <a class="dropdown-item" href="portfolio-1-col.php">1 Column Portfolio</a>
+                        <a class="dropdown-item" href="portfolio-2-col.php">2 Column Portfolio</a>
+                        <a class="dropdown-item" href="portfolio-3-col.php">3 Column Portfolio</a>
+                        <a class="dropdown-item" href="portfolio-4-col.php">4 Column Portfolio</a>
                     </div>
                 </li>
             </ul>
